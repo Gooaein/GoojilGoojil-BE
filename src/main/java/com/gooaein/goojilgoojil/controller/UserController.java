@@ -1,8 +1,8 @@
-package com.goormthon.goojilgoojil.controller;
+package com.gooaein.goojilgoojil.controller;
 
-import com.goormthon.goojilgoojil.annotation.UserId;
-import com.goormthon.goojilgoojil.dto.global.ResponseDto;
-import com.goormthon.goojilgoojil.service.UserService;
+import com.gooaein.goojilgoojil.annotation.UserId;
+import com.gooaein.goojilgoojil.dto.global.ResponseDto;
+import com.gooaein.goojilgoojil.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.goormthon.goojilgoojil.constants;
+package com.gooaein.goojilgoojil.constants;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ public class Constants {
     public static String AUTHORIZATION_HEADER = "Authorization";
 
     public static List<String> NO_NEED_AUTH_URLS = List.of(
+            "/oauth2/authorization/kakao",
             "/api/v1/no-auth/**", "api/v1/oauth/login",
             "/api/v1/auth/sign-up",
             "/api/v1/auth/id-duplicate",
@@ -20,13 +21,9 @@ public class Constants {
             "/api-docs/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/swagger-ui/**",
+            "/swagger-ui/**"
             );
-
-    public static List<String> APPLICANTS_URLS = List.of(
-            "/api/v1/applicants/**");
-    public static List<String> OWNERS_URLS = List.of(
-            "/api/v1/owners/**");
+    
     public static List<String> USERS_URLS = List.of(
             "/api/v1/users/**");
 }

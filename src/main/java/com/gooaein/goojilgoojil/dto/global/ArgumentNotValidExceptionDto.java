@@ -1,6 +1,6 @@
-package com.inglo.giggle.dto.global;
+package com.gooaein.goojilgoojil.dto.global;
 
-import com.inglo.giggle.exception.ErrorCode;
+import com.gooaein.goojilgoojil.exception.ErrorCode;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.Getter;

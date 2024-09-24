@@ -1,7 +1,7 @@
-package com.inglo.giggle.security.info;
+package com.gooaein.goojilgoojil.security.info;
 
-import com.inglo.giggle.dto.type.ERole;
-import com.inglo.giggle.repository.UserRepository;
+import com.gooaein.goojilgoojil.dto.type.ERole;
+import com.gooaein.goojilgoojil.repository.UserRepository;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +29,15 @@ public class UserPrincipal implements UserDetails, OAuth2User {
                 .password(securityForm.getPassword())
                 .role(securityForm.getRole())
                 .attributes(Collections.emptyMap())
+                .authorities(Collections.singleton(new SimpleGrantedAuthority(securityForm.getRole().getSecurityName())))
+                .build();
+    }
+    public static UserPrincipal create(UserRepository.UserSecurityForm securityForm, Map<String, Object> attributes){
+        return UserPrincipal.builder()
+                .userId(securityForm.getId())
+                .password(securityForm.getPassword())
+                .role(securityForm.getRole())
+                .attributes(attributes)
                 .authorities(Collections.singleton(new SimpleGrantedAuthority(securityForm.getRole().getSecurityName())))
                 .build();
     }

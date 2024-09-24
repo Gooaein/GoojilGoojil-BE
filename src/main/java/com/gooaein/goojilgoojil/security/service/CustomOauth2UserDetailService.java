@@ -1,12 +1,12 @@
-package com.kcs.zolang.security.service;
+package com.gooaein.goojilgoojil.security.service;
 
-import com.kcs.zolang.domain.User;
-import com.kcs.zolang.dto.type.EProvider;
-import com.kcs.zolang.dto.type.ERole;
-import com.kcs.zolang.repository.UserRepository;
-import com.kcs.zolang.security.info.UserPrincipal;
-import com.kcs.zolang.security.info.factory.Oauth2UserInfo;
-import com.kcs.zolang.security.info.factory.Oauth2UserInfoFactory;
+import com.gooaein.goojilgoojil.domain.User;
+import com.gooaein.goojilgoojil.dto.type.EProvider;
+import com.gooaein.goojilgoojil.dto.type.ERole;
+import com.gooaein.goojilgoojil.repository.UserRepository;
+import com.gooaein.goojilgoojil.security.info.UserPrincipal;
+import com.gooaein.goojilgoojil.security.info.factory.Oauth2UserInfo;
+import com.gooaein.goojilgoojil.security.info.factory.Oauth2UserInfoFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,31 +37,15 @@ public class CustomOauth2UserDetailService extends DefaultOAuth2UserService {
         UserRepository.UserSecurityForm securityForm = userRepository.findSecurityFormBySerialId(oauth2UserInfo.getId())
                 .orElseGet(() -> {
                             log.info("새로운 사용자 접근, 저장 로직 진입");
-                            User newUser = null;
-                            if(oauth2UserInfo.getAttributes().get("email")==null){
-                                newUser = userRepository.save(
-                                        User.builder()
-                                                .serialId(oauth2UserInfo.getId())
-                                                .password(bCryptPasswordEncoder.encode(UUID.randomUUID().toString()))
-                                                .provider(provider)
-                                                .role(ERole.GUEST)
-                                                .nickname(oauth2UserInfo.getAttributes().get("login").toString())
-                                                .profileImage(oauth2UserInfo.getAttributes().get("avatar_url").toString())
-                                                .build()
-                                );
-                            } else {
-                                newUser = userRepository.save(
-                                        User.builder()
-                                                .serialId(oauth2UserInfo.getId())
-                                                .password(bCryptPasswordEncoder.encode(UUID.randomUUID().toString()))
-                                                .provider(provider)
-                                                .role(ERole.GUEST)
-                                                .nickname(oauth2UserInfo.getAttributes().get("login").toString())
-                                                .email(oauth2UserInfo.getAttributes().get("email").toString())
-                                                .profileImage(oauth2UserInfo.getAttributes().get("avatar_url").toString())
-                                                .build()
-                                );
-                            }
+                            User newUser = userRepository.save(
+                                    User.builder()
+                                            .serialId(oauth2UserInfo.getId())
+                                            .password(bCryptPasswordEncoder.encode(UUID.randomUUID().toString()))
+                                            .provider(provider)
+                                            .role(ERole.USER)
+                                            .nickname(oauth2UserInfo.getNickname())
+                                            .build()
+                            );
                             return UserRepository.UserSecurityForm.invoke(newUser);
                         }
                 );

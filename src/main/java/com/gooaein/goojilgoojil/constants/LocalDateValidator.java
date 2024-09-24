@@ -1,6 +1,6 @@
-package com.goormthon.goojilgoojil.constants;
+package com.gooaein.goojilgoojil.constants;
 
-import com.goormthon.goojilgoojil.Date;
+import com.gooaein.goojilgoojil.annotation.Date;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.extern.slf4j.Slf4j;

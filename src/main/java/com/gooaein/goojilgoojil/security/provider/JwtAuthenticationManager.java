@@ -1,4 +1,4 @@
-package com.inglo.giggle.security.provider;
+package com.gooaein.goojilgoojil.security.provider;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

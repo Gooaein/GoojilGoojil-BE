@@ -1,6 +1,6 @@
-package com.inglo.giggle.security.info;
+package com.gooaein.goojilgoojil.security.info;
 
-import com.inglo.giggle.dto.type.ERole;
+import com.gooaein.goojilgoojil.dto.type.ERole;
 
 public record JwtUserInfo(Long userId, ERole role) {
 }

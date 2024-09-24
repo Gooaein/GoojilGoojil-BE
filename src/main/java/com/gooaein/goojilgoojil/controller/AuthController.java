@@ -1,14 +1,15 @@
-package com.goormthon.goojilgoojil.controller;
+package com.gooaein.goojilgoojil.controller;
 
-import com.goormthon.goojilgoojil.annotation.UserId;
-import com.goormthon.goojilgoojil.constants.Constants;
-import com.goormthon.goojilgoojil.dto.global.ResponseDto;
-import com.goormthon.goojilgoojil.dto.request.AuthSignUpDto;
-import com.goormthon.goojilgoojil.dto.response.JwtTokenDto;
-import com.goormthon.goojilgoojil.exception.CommonException;
-import com.goormthon.goojilgoojil.exception.ErrorCode;
-import com.goormthon.goojilgoojil.service.AuthService;
-import com.goormthon.goojilgoojil.utility.HeaderUtil;
+import com.gooaein.goojilgoojil.constants.Constants;
+import com.gooaein.goojilgoojil.annotation.UserId;
+import com.gooaein.goojilgoojil.dto.global.ResponseDto;
+import com.gooaein.goojilgoojil.dto.request.AuthSignUpDto;
+import com.gooaein.goojilgoojil.dto.request.OauthLoginDto;
+import com.gooaein.goojilgoojil.dto.response.JwtTokenDto;
+import com.gooaein.goojilgoojil.exception.CommonException;
+import com.gooaein.goojilgoojil.exception.ErrorCode;
+import com.gooaein.goojilgoojil.service.AuthService;
+import com.gooaein.goojilgoojil.utility.HeaderUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,11 +38,9 @@ public class AuthController {
     @PostMapping("/auth/sign-up")
     @Operation(summary = "Default 회원가입", description = "Default 회원가입을 진행합니다.")
     public void signUp(
-            @RequestBody @Valid AuthSignUpDto authSignUpDto,
-            HttpServletRequest request,
-            HttpServletResponse response
+            @RequestBody @Valid AuthSignUpDto authSignUpDto
     ) throws IOException {
-        authService.signUp(authSignUpDto, request, response);
+        authService.signUp(authSignUpDto);
     }
 
     @PostMapping("/auth/reissue")

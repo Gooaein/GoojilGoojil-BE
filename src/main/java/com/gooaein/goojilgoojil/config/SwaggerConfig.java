@@ -1,4 +1,4 @@
-package com.inglo.giggle.config;
+package com.gooaein.goojilgoojil.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -37,8 +37,8 @@ public class SwaggerConfig {
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Giggle API")
-                        .description("Giggle API Docs")
+                        .title("GoojilGoojil API")
+                        .description("GoojilGoojil API Docs")
                         .version(VERSION))
                 .components(new Components()
                         .addSecuritySchemes(JWT_SCHEMA_NAME,

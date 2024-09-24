@@ -1,4 +1,4 @@
-package com.inglo.giggle.dto.type;
+package com.gooaein.goojilgoojil.dto.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,8 +8,8 @@ import java.util.Arrays;
 @Getter
 @RequiredArgsConstructor
 public enum ERole {
-    APPLICANT("APPLICANT", "ROLE_APPLICANT"),
-    OWNER("OWNER", "ROLE_OWNER");
+    GUEST("GUEST", "ROLE_GUEST"),
+    USER("USER", "ROLE_USER");
 
     private final String name;
     private final String securityName;
@@ -21,3 +21,4 @@ public enum ERole {
                 orElseThrow(() -> new IllegalArgumentException("No such role: " + name));
     }
 }
+

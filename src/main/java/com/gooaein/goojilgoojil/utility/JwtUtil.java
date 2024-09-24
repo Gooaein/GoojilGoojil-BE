@@ -1,8 +1,8 @@
-package com.inglo.giggle.utility;
+package com.gooaein.goojilgoojil.utility;
 
-import com.inglo.giggle.constants.Constants;
-import com.inglo.giggle.dto.response.JwtTokenDto;
-import com.inglo.giggle.dto.type.ERole;
+import com.gooaein.goojilgoojil.dto.response.JwtTokenDto;
+import com.gooaein.goojilgoojil.dto.type.ERole;
+import com.gooaein.goojilgoojil.constants.Constants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;

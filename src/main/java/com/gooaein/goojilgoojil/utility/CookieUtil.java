@@ -1,8 +1,9 @@
-package com.inglo.giggle.utility;
+package com.gooaein.goojilgoojil.utility;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.ResponseCookie;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -25,17 +26,27 @@ public class CookieUtil {
     }
 
     public static void addCookie(HttpServletResponse response, String name, String value) {
-        Cookie cookie = new Cookie(name, value);
-        cookie.setPath("/");
-        response.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from(name, value)
+                .path("/")
+                .domain("goojilgoojil.com")
+                .maxAge(60 * 60 * 24) // 1시간 설정
+                .httpOnly(false)
+                .sameSite("Lax")
+                .secure(true)
+                .build();
+        response.addHeader("Set-Cookie", cookie.toString());
     }
 
     public static void addSecureCookie(HttpServletResponse response, String name, String value, Integer maxAge) {
-        Cookie cookie = new Cookie(name, value);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(maxAge);
-        response.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from(name, value)
+                .path("/")
+                .domain("goojilgoojil.com")
+                .maxAge(maxAge)
+                .httpOnly(false)
+                .sameSite("Lax")
+                .secure(true)
+                .build();
+        response.addHeader("Set-Cookie", cookie.toString());
     }
 
     public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
@@ -47,13 +58,18 @@ public class CookieUtil {
 
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(name)) {
-                cookie.setMaxAge(0);
-                cookie.setPath("/");
-                response.addCookie(cookie);
+                ResponseCookie deleteCookie = ResponseCookie.from(name,null)
+                        .path("/")
+                        .domain("goojilgoojil.com")
+                        .maxAge(0)
+                        .httpOnly(false)
+                        .sameSite("Lax")
+                        .secure(true)
+                        .build();
+                response.addHeader("Set-Cookie", deleteCookie.toString());
             }
         }
     }
-
     public static Optional<String> refineCookie(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();
 

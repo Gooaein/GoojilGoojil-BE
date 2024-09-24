@@ -1,9 +1,9 @@
-package com.inglo.giggle.security.service;
+package com.gooaein.goojilgoojil.security.service;
 
-import com.inglo.giggle.exception.CommonException;
-import com.inglo.giggle.exception.ErrorCode;
-import com.inglo.giggle.repository.UserRepository;
-import com.inglo.giggle.security.info.UserPrincipal;
+import com.gooaein.goojilgoojil.exception.CommonException;
+import com.gooaein.goojilgoojil.exception.ErrorCode;
+import com.gooaein.goojilgoojil.repository.UserRepository;
+import com.gooaein.goojilgoojil.security.info.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

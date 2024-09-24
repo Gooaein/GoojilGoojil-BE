@@ -1,6 +1,6 @@
-package dont.forget.springsecurity.security.info;
+package com.gooaein.goojilgoojil.security.info;
 
-import dont.forget.springsecurity.security.info.factory.Oauth2UserInfo;
+import com.gooaein.goojilgoojil.security.info.factory.Oauth2UserInfo;
 
 import java.util.Map;
 
@@ -13,5 +13,9 @@ public class NaverOauth2UserInfo extends Oauth2UserInfo {
     public String getId() {
         Map<String, String> response = (Map<String, String>)attributes.get("response");
         return response.get("id");
+    }
+    public String getNickname() {
+        Map<String, String> response = (Map<String, String>)attributes.get("response");
+        return response.get("nickname");
     }
 }

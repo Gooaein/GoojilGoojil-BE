@@ -1,9 +1,9 @@
-package dont.forget.springsecurity.security.handler.logout;
+package com.gooaein.goojilgoojil.security.handler.logout;
 
-import dont.forget.springsecurity.exception.CommonException;
-import dont.forget.springsecurity.exception.ErrorCode;
-import dont.forget.springsecurity.repository.UserRepository;
-import dont.forget.springsecurity.security.info.UserPrincipal;
+import com.gooaein.goojilgoojil.exception.CommonException;
+import com.gooaein.goojilgoojil.exception.ErrorCode;
+import com.gooaein.goojilgoojil.repository.UserRepository;
+import com.gooaein.goojilgoojil.security.info.UserPrincipal;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

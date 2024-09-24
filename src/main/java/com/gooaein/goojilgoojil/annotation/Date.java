@@ -1,6 +1,6 @@
-package com.goormthon.goojilgoojil.annotation;
+package com.gooaein.goojilgoojil.annotation;
 
-import com.goormthon.goojilgoojil.constants.LocalDateValidator;
+import com.gooaein.goojilgoojil.constants.LocalDateValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

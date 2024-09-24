@@ -1,4 +1,4 @@
-package com.inglo.giggle.security.config;
+package com.gooaein.goojilgoojil.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

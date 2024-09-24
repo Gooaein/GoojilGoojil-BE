@@ -1,6 +1,6 @@
-package com.inglo.giggle.exception;
+package com.gooaein.goojilgoojil.exception;
 
-import com.inglo.giggle.dto.global.ResponseDto;
+import com.gooaein.goojilgoojil.dto.global.ResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;

@@ -1,8 +1,8 @@
-package com.inglo.giggle.domain;
+package com.gooaein.goojilgoojil.domain;
 
-import com.inglo.giggle.dto.request.AuthSignUpDto;
-import com.inglo.giggle.dto.type.EProvider;
-import com.inglo.giggle.dto.type.ERole;
+import com.gooaein.goojilgoojil.dto.request.AuthSignUpDto;
+import com.gooaein.goojilgoojil.dto.type.EProvider;
+import com.gooaein.goojilgoojil.dto.type.ERole;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,31 +47,45 @@ public class User {
     @Column(name = "refresh_token")
     private String refreshToken;
 
-    @Column(name = "device_token")
-    private String deviceToken;
+    @Column(name = "nickname")
+    private String nickname;
 
     @Builder
-    public User(String serialId, String password, EProvider provider, ERole role, String deviceToken) {
+    public User(String serialId, String password, EProvider provider, ERole role, String nickname) {
         this.serialId = serialId;
         this.password = password;
         this.provider = provider;
         this.role = role;
         this.createdAt = LocalDateTime.now();
         this.isLogin = false;
-        this.deviceToken = deviceToken;
+        this.nickname = nickname;
     }
 
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
 
-    public static User signUp(AuthSignUpDto authSignUpDto, String encodedPassword, ERole role) {
+    public static User signUp(AuthSignUpDto authSignUpDto, String encodedPassword) {
         return User.builder()
                 .serialId(authSignUpDto.serialId())
                 .password(encodedPassword)
                 .provider(EProvider.DEFAULT)
-                .role(role)
-                .deviceToken(authSignUpDto.deviceToken())
+                .role(ERole.USER)
                 .build();
+    }
+
+    public static User signUp(String serialId, EProvider provider, String nickname) {
+        return User.builder()
+                .serialId(serialId)
+                .provider(provider)
+                .password(null)
+                .nickname(nickname)
+                .role(ERole.USER)
+                .build();
+    }
+
+    public void register(String nickname) {
+        this.nickname = nickname;
+        this.role = ERole.USER;
     }
 }

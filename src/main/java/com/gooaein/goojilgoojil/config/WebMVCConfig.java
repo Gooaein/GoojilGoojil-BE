@@ -1,8 +1,8 @@
-package com.inglo.giggle.config;
+package com.gooaein.goojilgoojil.config;
 
-import com.inglo.giggle.constants.Constants;
-import com.inglo.giggle.intercepter.pre.UserIdArgumentResolver;
-import com.inglo.giggle.intercepter.pre.UserIdInterceptor;
+import com.gooaein.goojilgoojil.intercepter.pre.UserIdArgumentResolver;
+import com.gooaein.goojilgoojil.intercepter.pre.UserIdInterceptor;
+import com.gooaein.goojilgoojil.constants.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

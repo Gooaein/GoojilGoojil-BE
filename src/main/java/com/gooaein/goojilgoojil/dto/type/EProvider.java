@@ -1,4 +1,4 @@
-package com.inglo.giggle.dto.type;
+package com.gooaein.goojilgoojil.dto.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum EProvider {
     DEFAULT("DEFAULT"),
     KAKAO("KAKAO"),
+    NAVER("NAVER"),
     APPLE("APPLE");
 
     private final String name;

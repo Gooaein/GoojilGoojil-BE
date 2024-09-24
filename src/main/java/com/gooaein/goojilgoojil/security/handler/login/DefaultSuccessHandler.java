@@ -1,9 +1,9 @@
-package com.inglo.giggle.security.handler.login;
+package com.gooaein.goojilgoojil.security.handler.login;
 
-import com.inglo.giggle.dto.response.JwtTokenDto;
-import com.inglo.giggle.repository.UserRepository;
-import com.inglo.giggle.security.info.UserPrincipal;
-import com.inglo.giggle.utility.JwtUtil;
+import com.gooaein.goojilgoojil.dto.response.JwtTokenDto;
+import com.gooaein.goojilgoojil.repository.UserRepository;
+import com.gooaein.goojilgoojil.security.info.UserPrincipal;
+import com.gooaein.goojilgoojil.utility.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,6 @@ public class DefaultSuccessHandler implements AuthenticationSuccessHandler {
         userRepository.updateRefreshTokenAndLoginStatus(userPrincipal.getUserId(), tokenDto.refreshToken(), true);
 
         setSuccessAppResponse(response, tokenDto);
-
     }
 
     private void setSuccessAppResponse(HttpServletResponse response, JwtTokenDto tokenDto) throws IOException {

@@ -1,8 +1,8 @@
-package com.inglo.giggle.security.provider;
+package com.gooaein.goojilgoojil.security.provider;
 
-import com.inglo.giggle.security.info.JwtUserInfo;
-import com.inglo.giggle.security.info.UserPrincipal;
-import com.inglo.giggle.security.service.CustomUserDetailService;
+import com.gooaein.goojilgoojil.security.service.CustomUserDetailService;
+import com.gooaein.goojilgoojil.security.info.JwtUserInfo;
+import com.gooaein.goojilgoojil.security.info.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

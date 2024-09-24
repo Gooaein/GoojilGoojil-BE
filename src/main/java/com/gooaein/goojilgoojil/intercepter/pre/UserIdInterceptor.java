@@ -1,4 +1,4 @@
-package com.inglo.giggle.intercepter.pre;
+package com.gooaein.goojilgoojil.intercepter.pre;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

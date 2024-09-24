@@ -1,6 +1,6 @@
-package com.inglo.giggle.intercepter.post;
+package com.gooaein.goojilgoojil.intercepter.post;
 
-import com.inglo.giggle.dto.global.ResponseDto;
+import com.gooaein.goojilgoojil.dto.global.ResponseDto;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -9,7 +9,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-@RestControllerAdvice(basePackages = "com.inglo.giggle")
+@RestControllerAdvice(basePackages = "com.gooaein.goojilgoojil")
 public class ResponseInterceptor implements ResponseBodyAdvice {
 
     @Override

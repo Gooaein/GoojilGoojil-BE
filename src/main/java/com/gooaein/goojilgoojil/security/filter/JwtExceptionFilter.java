@@ -1,8 +1,8 @@
-package com.inglo.giggle.security.filter;
+package com.gooaein.goojilgoojil.security.filter;
 
-import com.inglo.giggle.constants.Constants;
-import com.inglo.giggle.exception.CommonException;
-import com.inglo.giggle.exception.ErrorCode;
+import com.gooaein.goojilgoojil.exception.CommonException;
+import com.gooaein.goojilgoojil.exception.ErrorCode;
+import com.gooaein.goojilgoojil.constants.Constants;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;

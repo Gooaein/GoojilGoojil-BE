@@ -1,10 +1,10 @@
-package com.inglo.giggle;
+package com.gooaein.goojilgoojil;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class GiggleApplicationTests {
+public class GoojilGoojilApplicationTests {
     @Test
     void contextLoads() {
     }

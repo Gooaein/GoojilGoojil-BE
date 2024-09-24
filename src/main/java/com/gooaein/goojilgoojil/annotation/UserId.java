@@ -1,4 +1,4 @@
-package com.goormthon.goojilgoojil.annotation;
+package com.gooaein.goojilgoojil.annotation;
 
 import java.lang.annotation.*;
 

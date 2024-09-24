@@ -1,7 +1,7 @@
-package com.inglo.giggle.security.handler.login;
+package com.gooaein.goojilgoojil.security.handler.login;
 
-import com.inglo.giggle.dto.global.ExceptionDto;
-import com.inglo.giggle.exception.ErrorCode;
+import com.gooaein.goojilgoojil.dto.global.ExceptionDto;
+import com.gooaein.goojilgoojil.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.minidev.json.JSONValue;

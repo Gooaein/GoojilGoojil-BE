@@ -1,17 +1,20 @@
-package com.inglo.giggle.security.config;
+package com.gooaein.goojilgoojil.security.config;
 
-import com.inglo.giggle.constants.Constants;
-import com.inglo.giggle.security.filter.GlobalLoggerFilter;
-import com.inglo.giggle.security.filter.JwtAuthenticationFilter;
-import com.inglo.giggle.security.filter.JwtExceptionFilter;
-import com.inglo.giggle.security.handler.exception.CustomAccessDeniedHandler;
-import com.inglo.giggle.security.handler.exception.CustomAuthenticationEntryPointHandler;
-import com.inglo.giggle.security.handler.login.DefaultFailureHandler;
-import com.inglo.giggle.security.handler.login.DefaultSuccessHandler;
-import com.inglo.giggle.security.handler.logout.CustomLogoutProcessHandler;
-import com.inglo.giggle.security.handler.logout.CustomLogoutResultHandler;
-import com.inglo.giggle.security.provider.JwtAuthenticationManager;
-import com.inglo.giggle.utility.JwtUtil;
+import com.gooaein.goojilgoojil.security.handler.exception.CustomAccessDeniedHandler;
+import com.gooaein.goojilgoojil.security.handler.exception.CustomAuthenticationEntryPointHandler;
+import com.gooaein.goojilgoojil.security.handler.login.DefaultFailureHandler;
+import com.gooaein.goojilgoojil.security.handler.login.DefaultSuccessHandler;
+import com.gooaein.goojilgoojil.security.handler.login.Oauth2FailureHandler;
+import com.gooaein.goojilgoojil.security.handler.login.Oauth2SuccessHandler;
+import com.gooaein.goojilgoojil.security.handler.logout.CustomLoginResultHandler;
+import com.gooaein.goojilgoojil.security.handler.logout.CustomLogoutProcessHandler;
+import com.gooaein.goojilgoojil.security.provider.JwtAuthenticationManager;
+import com.gooaein.goojilgoojil.security.service.CustomOauth2UserDetailService;
+import com.gooaein.goojilgoojil.utility.JwtUtil;
+import com.gooaein.goojilgoojil.constants.Constants;
+import com.gooaein.goojilgoojil.security.filter.GlobalLoggerFilter;
+import com.gooaein.goojilgoojil.security.filter.JwtAuthenticationFilter;
+import com.gooaein.goojilgoojil.security.filter.JwtExceptionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +31,11 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 public class SecurityConfig {
     private final DefaultSuccessHandler defaultSuccessHandler;
     private final DefaultFailureHandler defaultFailureHandler;
-    private final CustomLogoutProcessHandler customSignOutProcessHandler;
-    private final CustomLogoutResultHandler customSignOutResultHandler;
+    private final Oauth2SuccessHandler oauth2SuccessHandler;
+    private final Oauth2FailureHandler oauth2FailureHandler;
+    private final CustomOauth2UserDetailService customOauth2UserDetailService;
+    private final CustomLogoutProcessHandler customLogoutProcessHandler;
+    private final CustomLoginResultHandler customLoginResultHandler;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPointHandler customAuthenticationEntryPointHandler;
     private final JwtAuthenticationManager jwtAuthenticationManager;
@@ -47,9 +53,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(registry ->
                         registry
                                 .requestMatchers(Constants.NO_NEED_AUTH_URLS.toArray(String[]::new)).permitAll()
-                                .requestMatchers(Constants.OWNERS_URLS.toArray(String[]::new)).hasRole("OWNER")
-                                .requestMatchers(Constants.APPLICANTS_URLS.toArray(String[]::new)).hasRole("APPLICANT")
-                                .requestMatchers(Constants.USERS_URLS.toArray(String[]::new)).hasAnyRole("APPLICANT", "OWNER")
+                                .requestMatchers(Constants.USERS_URLS.toArray(String[]::new)).hasRole("USER")
                                 .anyRequest().authenticated()
                 )
 
@@ -62,11 +66,16 @@ public class SecurityConfig {
                                 .successHandler(defaultSuccessHandler)
                                 .failureHandler(defaultFailureHandler)
                 )
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(oauth2SuccessHandler)
+                        .failureHandler(oauth2FailureHandler)
+                        .userInfoEndpoint(it -> it.userService(customOauth2UserDetailService))
+                )
                 .logout(configurer ->
                         configurer
                                 .logoutUrl("/api/v1/auth/logout")
-                                .addLogoutHandler(customSignOutProcessHandler)
-                                .logoutSuccessHandler(customSignOutResultHandler)
+                                .addLogoutHandler(customLogoutProcessHandler)
+                                .logoutSuccessHandler(customLoginResultHandler)
                 )
                 .exceptionHandling(configurer ->
                         configurer

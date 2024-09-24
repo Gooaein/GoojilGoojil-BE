@@ -1,4 +1,4 @@
-package com.inglo.giggle.dto.response;
+package com.gooaein.goojilgoojil.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;

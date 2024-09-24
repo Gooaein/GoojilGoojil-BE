@@ -1,4 +1,4 @@
-package com.inglo.giggle.exception;
+package com.gooaein.goojilgoojil.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
-package com.kcs.zolang.security.info;
+package com.gooaein.goojilgoojil.security.info;
 
-import com.kcs.zolang.dto.global.ExceptionDto;
-import com.kcs.zolang.exception.ErrorCode;
+import com.gooaein.goojilgoojil.dto.global.ExceptionDto;
+import com.gooaein.goojilgoojil.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletResponse;
 import net.minidev.json.JSONValue;
 

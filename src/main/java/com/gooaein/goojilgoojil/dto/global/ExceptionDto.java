@@ -1,6 +1,6 @@
-package com.inglo.giggle.dto.global;
+package com.gooaein.goojilgoojil.dto.global;
 
-import com.inglo.giggle.exception.ErrorCode;
+import com.gooaein.goojilgoojil.exception.ErrorCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

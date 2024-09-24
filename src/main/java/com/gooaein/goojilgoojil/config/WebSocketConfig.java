@@ -1,4 +1,4 @@
-package com.beotkkotthon.areyousleeping.config;
+package com.gooaein.goojilgoojil.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

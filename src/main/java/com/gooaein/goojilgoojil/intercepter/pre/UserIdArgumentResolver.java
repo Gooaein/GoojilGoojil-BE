@@ -1,8 +1,8 @@
-package com.inglo.giggle.intercepter.pre;
+package com.gooaein.goojilgoojil.intercepter.pre;
 
-import com.inglo.giggle.annotation.UserId;
-import com.inglo.giggle.exception.CommonException;
-import com.inglo.giggle.exception.ErrorCode;
+import com.gooaein.goojilgoojil.exception.CommonException;
+import com.gooaein.goojilgoojil.exception.ErrorCode;
+import com.gooaein.goojilgoojil.annotation.UserId;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;

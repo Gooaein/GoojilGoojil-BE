@@ -1,11 +1,10 @@
-package dont.forget.springsecurity.security.handler.login;
+package com.gooaein.goojilgoojil.security.handler.login;
 
-import dont.forget.springsecurity.dto.response.JwtTokenDto;
-import dont.forget.springsecurity.repository.UserRepository;
-import dont.forget.springsecurity.security.info.AuthenticationResponse;
-import dont.forget.springsecurity.security.info.UserPrincipal;
-import dont.forget.springsecurity.util.CookieUtil;
-import dont.forget.springsecurity.util.JwtUtil;
+import com.gooaein.goojilgoojil.dto.response.JwtTokenDto;
+import com.gooaein.goojilgoojil.repository.UserRepository;
+import com.gooaein.goojilgoojil.security.info.AuthenticationResponse;
+import com.gooaein.goojilgoojil.security.info.UserPrincipal;
+import com.gooaein.goojilgoojil.utility.JwtUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

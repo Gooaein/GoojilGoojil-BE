@@ -1,7 +1,7 @@
-package com.inglo.giggle.utility;
+package com.gooaein.goojilgoojil.utility;
 
-import com.inglo.giggle.exception.CommonException;
-import com.inglo.giggle.exception.ErrorCode;
+import com.gooaein.goojilgoojil.exception.CommonException;
+import com.gooaein.goojilgoojil.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
 

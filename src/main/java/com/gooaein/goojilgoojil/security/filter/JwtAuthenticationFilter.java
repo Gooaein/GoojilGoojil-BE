@@ -1,11 +1,11 @@
-package com.inglo.giggle.security.filter;
+package com.gooaein.goojilgoojil.security.filter;
 
-import com.inglo.giggle.constants.Constants;
-import com.inglo.giggle.dto.type.ERole;
-import com.inglo.giggle.security.info.JwtUserInfo;
-import com.inglo.giggle.security.provider.JwtAuthenticationManager;
-import com.inglo.giggle.utility.HeaderUtil;
-import com.inglo.giggle.utility.JwtUtil;
+import com.gooaein.goojilgoojil.dto.type.ERole;
+import com.gooaein.goojilgoojil.security.provider.JwtAuthenticationManager;
+import com.gooaein.goojilgoojil.utility.JwtUtil;
+import com.gooaein.goojilgoojil.constants.Constants;
+import com.gooaein.goojilgoojil.security.info.JwtUserInfo;
+import com.gooaein.goojilgoojil.utility.HeaderUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

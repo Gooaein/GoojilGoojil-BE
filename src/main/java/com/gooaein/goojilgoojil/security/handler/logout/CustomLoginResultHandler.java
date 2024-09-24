@@ -1,9 +1,9 @@
-package dont.forget.springsecurity.security.handler.logout;
+package com.gooaein.goojilgoojil.security.handler.logout;
 
-import dont.forget.springsecurity.constant.Constants;
-import dont.forget.springsecurity.exception.ErrorCode;
-import dont.forget.springsecurity.security.info.AuthenticationResponse;
-import dont.forget.springsecurity.util.CookieUtil;
+import com.gooaein.goojilgoojil.constants.Constants;
+import com.gooaein.goojilgoojil.exception.ErrorCode;
+import com.gooaein.goojilgoojil.security.info.AuthenticationResponse;
+import com.gooaein.goojilgoojil.utility.CookieUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

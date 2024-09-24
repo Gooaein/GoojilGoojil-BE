@@ -1,7 +1,7 @@
-package com.inglo.giggle.repository;
+package com.gooaein.goojilgoojil.repository;
 
-import com.inglo.giggle.domain.User;
-import com.inglo.giggle.dto.type.ERole;
+import com.gooaein.goojilgoojil.dto.type.ERole;
+import com.gooaein.goojilgoojil.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

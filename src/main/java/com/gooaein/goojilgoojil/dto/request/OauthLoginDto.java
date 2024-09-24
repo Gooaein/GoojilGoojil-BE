@@ -1,6 +1,6 @@
-package com.beotkkotthon.areyousleeping.dto.request;
+package com.gooaein.goojilgoojil.dto.request;
 
-import com.beotkkotthon.areyousleeping.dto.type.EProvider;
+import com.gooaein.goojilgoojil.dto.type.EProvider;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +14,9 @@ public record OauthLoginDto(
         String serialId,
         @NotNull(message = "provider는 빈값이 될 수 없습니다.")
         @JsonProperty("provider") @Schema(description = "프로바이더(소셜로그인 제공자)", example = "KAKAO")
-        EProvider provider
+        EProvider provider,
+        @NotNull(message = "nickname은 빈값이 될 수 없습니다.")
+        @JsonProperty("nickname") @Schema(description = "사용자의 닉네임", example = "홍길동")
+        String nickname
 ) {
 }

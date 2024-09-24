@@ -1,4 +1,4 @@
-package com.inglo.giggle.security.filter;
+package com.gooaein.goojilgoojil.security.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,4 +1,4 @@
-package com.inglo.giggle.utility;
+package com.gooaein.goojilgoojil.utility;
 
 import org.springframework.stereotype.Component;
 

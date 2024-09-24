@@ -1,7 +1,7 @@
-package com.inglo.giggle.security.handler.exception;
+package com.gooaein.goojilgoojil.security.handler.exception;
 
-import com.inglo.giggle.exception.ErrorCode;
-import com.inglo.giggle.security.info.AuthenticationResponse;
+import com.gooaein.goojilgoojil.exception.ErrorCode;
+import com.gooaein.goojilgoojil.security.info.AuthenticationResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
