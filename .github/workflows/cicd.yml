@@ -14,10 +14,12 @@ jobs:
     - name: Check out the repository
       uses: actions/checkout@v3
 
-    # 2. Download application-dev.yml from S3
-    - name: Download application-dev.yml from S3
+    # 2. add application-dev.yml from S3
+    - name: add application-dev.yml from S3
       run: |
-        curl -o src/main/resources/application-dev.yml ${{ secrets.YML_URL }}
+        cd ./src/main/resources
+        touch ./application-dev.yml
+        echo "${{ secrets.APPLICATION }}" > ./application-dev.yml
     
     # 3. Set up JDK 17 for Gradle build
     - name: Set up JDK 17
