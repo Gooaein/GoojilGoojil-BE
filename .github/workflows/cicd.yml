@@ -53,10 +53,14 @@ jobs:
       run: docker push ${{ secrets.DOCKER_IMAGE_NAME }}
 
     # 8. Deploy Docker container (SSH to EC2)
-    - name: Deploy Docker container
+
+    - name: Setup SSH Key
       run: |
         echo "${{ secrets.EC2_KEY_PAIR }}" > key.pem
         chmod 600 key.pem
+
+    - name: Deploy Docker container
+      run: |
         ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
           docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
           docker stop ${{ secrets.DOCKER_CONTAINER_NAME }} || true
