@@ -50,6 +50,9 @@ public class User {
     @Column(name = "nickname")
     private String nickname;
 
+    @Column(name = "session_id")
+    private String sessionId;
+
     @Builder
     public User(String serialId, String password, EProvider provider, ERole role, String nickname) {
         this.serialId = serialId;
@@ -74,6 +77,10 @@ public class User {
                 .build();
     }
 
+    public void updateSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
     public static User signUp(String serialId, EProvider provider, String nickname) {
         return User.builder()
                 .serialId(serialId)
@@ -82,10 +89,5 @@ public class User {
                 .nickname(nickname)
                 .role(ERole.USER)
                 .build();
-    }
-
-    public void register(String nickname) {
-        this.nickname = nickname;
-        this.role = ERole.USER;
     }
 }
