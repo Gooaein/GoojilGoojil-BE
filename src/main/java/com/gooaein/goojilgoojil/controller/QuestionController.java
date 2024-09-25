@@ -50,4 +50,16 @@ public class QuestionController {
         return ResponseDto.ok(null);
     }
 
+    @MessageMapping("/rooms/{roomId}/questions/{questionId}/checks")
+    @Operation(summary = "질문 답변 처리", description = "질문을 답변하면 해당 질문이 답변되었음을 다른 유저들에게 알립니다.")
+    public ResponseDto<?> checkQuestion(
+            @DestinationVariable String roomId,
+            @DestinationVariable String questionId,
+            SimpMessageHeaderAccessor headerAccessor) {
+        // WebSocket 세션 ID 가져오기
+        String sessionId = headerAccessor.getSessionId();
+        questionService.checkQuestion(roomId, questionId, sessionId);
+        return ResponseDto.ok(null);
+    }
+
 }

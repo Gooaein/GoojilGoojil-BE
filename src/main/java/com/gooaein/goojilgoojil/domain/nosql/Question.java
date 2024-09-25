@@ -18,7 +18,7 @@ public class Question {
     private final String avartarBase64; // 질문자 아바타
     private String likeCount; // 좋아요 수
     private String sendTime; // 질문 보낸 시간
-    private final String status;
+    private String status;
 
     @Builder
     public Question(String roomId, String title, String content, String avartarBase64, String likeCount, String status) {
@@ -34,6 +34,10 @@ public class Question {
     public void like() {
         this.likeCount = String.valueOf(Integer.parseInt(this.likeCount) + 1);
         this.sendTime = OffsetDateTime.now().toString();
+    }
+
+    public void check() {
+        this.status = "true";
     }
 }
 

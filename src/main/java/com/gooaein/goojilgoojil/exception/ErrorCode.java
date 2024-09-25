@@ -30,7 +30,8 @@ public enum ErrorCode {
     BAD_REQUEST_JSON(40006, HttpStatus.BAD_REQUEST, "잘못된 JSON 형식입니다."),
     SEARCH_SHORT_LENGTH_ERROR(40007, HttpStatus.BAD_REQUEST, "검색어는 2글자 이상이어야 합니다."),
     ALREADY_LIKED_QUESTION(40008, HttpStatus.BAD_REQUEST, "이미 좋아요를 누르셨습니다."),
-    CANNOT_END_ROOM(40009, HttpStatus.BAD_REQUEST, "방을 종료는 강연자만 가능합니다."),
+    CANNOT_END_ROOM(40009, HttpStatus.BAD_REQUEST, "방 종료는 강연자만 가능합니다."),
+    CANNOT_CHECK_QUESTION(40010, HttpStatus.BAD_REQUEST, "질문 답변은 강연자만 가능합니다."),
 
 
     // Access Denied Error

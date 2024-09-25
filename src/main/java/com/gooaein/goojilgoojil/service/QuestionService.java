@@ -104,4 +104,24 @@ public class QuestionService {
         messagingTemplate.convertAndSend("/subscribe/rooms/" + roomId, responseDto);
     }
 
+    @Transactional
+    public void checkQuestion(String roomId, String questionId, String sessionId) {
+        User user = userRepository.findBySessionId(sessionId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+        if (guestRepository.findById(user.getId()).isPresent()) {
+            throw new CommonException(ErrorCode.CANNOT_CHECK_QUESTION);
+        }
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_QUESTION));
+        question.check();
+        questionRepository.save(question);
+        QuestionResponseDto responseDto = QuestionResponseDto.builder()
+                .type("check")
+                .questionId(question.getId())
+                .likeCount(question.getLikeCount())
+                .status(question.getStatus())
+                .build();
+
+        messagingTemplate.convertAndSend("/subscribe/rooms/" + roomId, responseDto);
+    }
 }
