@@ -11,6 +11,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -19,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class QuestionController {
     private final QuestionService questionService;
 
-    @GetMapping("/rooms/{roomId}/questions")
+    @GetMapping("/api/v1/rooms/{roomId}/questions")
     @Operation(summary = "질문 조회", description = "방에 입장할 때, 입장 직전까지 나왔던 해당 방의 질문들을 조회합니다.")
-    public ResponseDto<?> getQuestions(@DestinationVariable String roomId) {
+    public ResponseDto<?> getQuestions(@PathVariable String roomId) {
         return ResponseDto.ok(questionService.getQuestions(roomId));
     }
 
