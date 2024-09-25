@@ -29,8 +29,12 @@ jobs:
         distribution: 'temurin'
 
     # 4. Build the project with Gradle
+    - name: Set up Gradle
+      uses: gradle/gradle-build-action@v2
+
     - name: Build with Gradle
-      run: ./gradlew bootJar
+      run: gradle bootJar
+
 
     # 5. Log in to Docker Hub (ensure Docker credentials are set in repository secrets)
     - name: Log in to Docker Hub
