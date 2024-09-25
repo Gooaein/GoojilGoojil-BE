@@ -26,6 +26,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '17'
+        distribution: 'temurin'
 
     # 4. Build the project with Gradle
     - name: Build with Gradle
