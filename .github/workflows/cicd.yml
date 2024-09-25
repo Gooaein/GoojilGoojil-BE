@@ -1,0 +1,61 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Check out the repository
+    - name: Check out the repository
+      uses: actions/checkout@v3
+
+    # 2. Download application-dev.yml from S3
+    - name: Download application-dev.yml from S3
+      run: |
+        curl -o src/main/resources/application-dev.yml "${{ secrets.YML_URL }}"
+    
+    # 3. Set up JDK 17 for Gradle build
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+
+    # 4. Build the project with Gradle
+    - name: Build with Gradle
+      run: ./gradlew bootJar
+
+    # 5. Log in to Docker Hub (ensure Docker credentials are set in repository secrets)
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    # 6. Build Docker image
+    - name: Build Docker image
+      run: docker build -t ${{ secrets.DOCKER_IMAGE_NAME }} .
+
+    # 7. Push Docker image to Docker Hub
+    - name: Push Docker image
+      run: docker push ${{ secrets.DOCKER_IMAGE_NAME }}
+
+    # 8. Deploy Docker container (SSH to EC2)
+    - name: Deploy Docker container
+      run: |
+        echo "${{ secrets.EC2_KEY_PAIR }}" > key.pem
+        chmod 600 key.pem
+        ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
+          docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
+          docker stop ${{ secrets.DOCKER_CONTAINER_NAME }} || true
+          docker rm ${{ secrets.DOCKER_CONTAINER_NAME }} || true
+          docker run -d --name goojilgoojil --network app-network -p 8080:8080 ${{ secrets.DOCKER_IMAGE_NAME }}
+        EOF
+
+    # 9. Clean up the KeyPair file
+    - name: Clean up KeyPair
+      run: rm key.pem
