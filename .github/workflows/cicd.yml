@@ -8,9 +8,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+  
     steps:
     # 1. Check out the repository
+    - name: Print environment setup
+      run: |
+        echo "Testing environment setup..."
+        echo "Username set: ${{ secrets.DOCKER_USERNAME ? 'Yes' : 'No' }}"
+        
     - name: Check out the repository
       uses: actions/checkout@v3
 
