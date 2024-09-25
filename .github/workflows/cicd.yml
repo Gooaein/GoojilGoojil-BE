@@ -61,11 +61,13 @@ jobs:
 
     - name: Deploy Docker container
       run: |
+        echo "${{ secrets.EC2_KEY_PAIR }}" > key.pem
+        chmod 600 key.pem
         ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
-          docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
-          docker stop ${{ secrets.DOCKER_CONTAINER_NAME }} || true
-          docker rm ${{ secrets.DOCKER_CONTAINER_NAME }} || true
-          docker run -d --name goojilgoojil --network app-network -p 8080:8080 ${{ secrets.DOCKER_IMAGE_NAME }}
+          sudo docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
+          sudo docker stop ${{ secrets.DOCKER_CONTAINER_NAME }} || true
+          sudo docker rm ${{ secrets.DOCKER_CONTAINER_NAME }} || true
+          sudo docker run -d --name ${{ secrets.DOCKER_CONTAINER_NAME }} --network app-network -p 8080:8080 ${{ secrets.DOCKER_IMAGE_NAME }}
         EOF
 
     # 9. Clean up the KeyPair file
