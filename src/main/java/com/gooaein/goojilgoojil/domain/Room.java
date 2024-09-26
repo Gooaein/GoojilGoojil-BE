@@ -38,7 +38,7 @@ public class Room {
         this.name = name;
         this.subName = subName;
         this.date = date;
-        this.location = location;  // location을 생성자에 추가
+        this.location = location;
         this.url = url;
     }
 }
