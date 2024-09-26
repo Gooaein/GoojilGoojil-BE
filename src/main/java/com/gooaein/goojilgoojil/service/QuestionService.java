@@ -5,12 +5,15 @@ import com.gooaein.goojilgoojil.domain.Like;
 import com.gooaein.goojilgoojil.domain.Room;
 import com.gooaein.goojilgoojil.domain.User;
 import com.gooaein.goojilgoojil.domain.nosql.Question;
+import com.gooaein.goojilgoojil.dto.request.LikeRequestDto;
 import com.gooaein.goojilgoojil.dto.request.QuestionRequestDto;
 import com.gooaein.goojilgoojil.dto.response.QuestionResponseDto;
 import com.gooaein.goojilgoojil.exception.CommonException;
 import com.gooaein.goojilgoojil.exception.ErrorCode;
 import com.gooaein.goojilgoojil.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 @Service
 public class QuestionService {
+    private final RabbitTemplate rabbitTemplate;
+    private final StringRedisTemplate redisTemplate;
     private final QuestionRepository questionRepository;
     private final GuestRepository guestRepository;
     private final UserRepository userRepository;
@@ -52,10 +58,10 @@ public class QuestionService {
         Question question = questionRepository.save(
                 Question.builder()
                         .roomId(roomId)
-                        .title("question")
+                        .title(questionRequestDto.title())
                         .content(questionRequestDto.content())
                         .avartarBase64(guest.getAvartarBase64())
-                        .likeCount("0")
+                        .likeCount(0)
                         .status("false")
                         .build()
         );
@@ -74,34 +80,24 @@ public class QuestionService {
         messagingTemplate.convertAndSend("/subscribe/rooms/" + roomId, responseDto);
     }
 
-    @Transactional
     public void likeQuestion(String roomId, String questionId, String sessionId) {
         User user = userRepository.findBySessionId(sessionId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
-        Guest guest = guestRepository.findById(user.getId())
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
-        Question question = questionRepository.findById(questionId)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_QUESTION));
-        if (likeRepository.findByUserIdAndQuestionId(user.getId(), questionId).isPresent()) {
+
+        // Redis 중복 공감 체크
+        String redisKey = "like:" + user.getId() + ":" + questionId;
+        Boolean isDuplicate = redisTemplate.opsForValue().setIfAbsent(redisKey, "1", 24, TimeUnit.HOURS);
+
+        // 이미 공감한 경우 중단
+        if (Boolean.FALSE.equals(isDuplicate)) {
             throw new CommonException(ErrorCode.ALREADY_LIKED_QUESTION);
         }
-        likeRepository.save(Like.builder()
-                .user(user)
-                .questionId(questionId)
-                .build()
-        );
-        question.like();
-        questionRepository.save(question);
-        QuestionResponseDto responseDto = QuestionResponseDto.builder()
-                .type("like")
-                .questionId(question.getId())
-                .avartarBase64(guest.getAvartarBase64())
-                .sendTime(question.getSendTime())
-                .likeCount(question.getLikeCount())
-                .status(question.getStatus())
-                .build();
 
-        messagingTemplate.convertAndSend("/subscribe/rooms/" + roomId, responseDto);
+        rabbitTemplate.convertAndSend("likeQueue", LikeRequestDto.builder()
+                .roomId(roomId)
+                .questionId(questionId)
+                .userId(user.getId())
+                .build());
     }
 
     @Transactional

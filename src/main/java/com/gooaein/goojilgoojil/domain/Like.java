@@ -22,6 +22,9 @@ public class Like {
     @Column(name = "question_id")
     private String questionId;
 
+    @Version // Optimistic Lock 사용
+    private int version;
+
     @Builder
     public Like(User user, String questionId) {
         this.user = user;
