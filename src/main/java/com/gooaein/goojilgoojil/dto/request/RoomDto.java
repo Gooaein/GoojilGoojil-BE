@@ -1,32 +1,41 @@
 package com.gooaein.goojilgoojil.dto.request;
 
 import com.gooaein.goojilgoojil.domain.Room;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class RoomDto {
     private Long id;
     private String name;
     private String subName;
     private LocalDateTime date;
-    private String location;
+    private String location;  // location 필드 추가
     private String url;
 
+    public RoomDto(String name, String subName, LocalDateTime date, String location) {
+        this.name = name;
+        this.subName = subName;
+        this.date = date;
+        this.location = location;
+    }
+
+    public RoomDto(Long id, String url) {
+        this.id = id;
+        this.url = url;
+    }
+
     public static RoomDto from(Room room) {
-        RoomDto roomDto = new RoomDto();
-        roomDto.setName(room.getName());
-        roomDto.setSubName(room.getSubName());
-        roomDto.setDate(room.getDate());
-        roomDto.setLocation(room.getLocation());
-        roomDto.setUrl(room.getUrl());
-        return roomDto;
+        RoomDto dto = new RoomDto();
+        dto.id = room.getId();
+        dto.name = room.getName();
+        dto.subName = room.getSubName();
+        dto.date = room.getDate();
+        dto.location = room.getLocation();
+        dto.url = room.getUrl();
+        return dto;
     }
 }
