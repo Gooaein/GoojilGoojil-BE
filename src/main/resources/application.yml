@@ -1,70 +1,11 @@
-  spring:
-    datasource:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/goojilgoojil?useSSL=false&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
-      username: root   # MySQL에서 사용하는 계정
-      password: asd00821@   # MySQL 계정의 비밀번호
-      hikari:
-        pool-name: jpa-hikari-pool
-        maximum-pool-size: 5
-        jdbc-url: ${spring.datasource.url}
-        username: ${spring.datasource.username}
-        password: ${spring.datasource.password}
-        driver-class-name: ${spring.datasource.driver-class-name}
-        idleTimeout: 300
-        maxLifeTime: 300
-        data-source-properties:
-          rewriteBatchedStatements: true
-    jpa:
-      open-in-view: false
-      database: mysql
-      generate-ddl: true
-      hibernate:
-        ddl-auto: update
-      show-sql: false
-      properties:
-        hibernate:
-          hbm2ddl.import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
-          current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
-          default_batch_fetch_size: ${chunkSize:100}
-          order_inserts: true
-          order_updates: true
-          format_sql: true
-          jdbc.batch_size: 20
+---
 
-    security:
-      oauth2:
-        client:
-          provider:
-            kakao:
-              authorization-uri: https://kauth.kakao.com/oauth/authorize
-              token-uri: https://kauth.kakao.com/oauth/token
-              user-info-uri: https://kapi.kakao.com/v2/user/me
-              user-name-attribute: id
-          registration:
-            kakao:
-              client-id: "f8df6a7df4d6eff945e9922f7b32cd86"
-              client-secret: "O8rt5L49hhHBhfbEvps0qxvIznFI3ZIw"
-              client-authentication-method: client_secret_post
-              redirect-uri: https://api.goojilgoojil.com/login/oauth2/code/kakao
-              authorization-grant-type: authorization_code
-              client-name: kakao
+spring:
+  profiles:
+    active: local
 
-  springdoc:
-    swagger-ui:
-      path: /swagger-ui.html
-  jwt:
-    secret-key: e24ee2b4c6991e275c3d0df9ccbb0bffc44fe15d87d20f81261c8cee703723afd68d2ce5f96c7f29fc47bc049181bf7f77de546fa2aa049a6549167a2b042c1c
-    access-token:
-      expire-period: 604800000
-    refresh-token:
-      expire-period: 604800000
+---
 
-  logging:
-    level:
-      org.springframework.security: INFO
-      web: INFO
-
-  server:
-    http-address: http://localhost:8080
-    https-address: https://api.goojilgoojil.com
+spring:
+  profiles:
+    active: dev
