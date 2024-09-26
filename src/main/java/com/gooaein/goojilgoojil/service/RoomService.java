@@ -89,20 +89,18 @@ public class RoomService {
     }
 
     public RoomDto createRoom(RoomDto roomDto) {
-        // 랜덤 문자열만 생성
-        String generatedUrl = generateRandomString(12);  // 도메인 없이 랜덤 문자열만 생성
+        String generatedUrl = generateRandomString(12);
 
         Room room = Room.builder()
                 .name(roomDto.getName())
                 .subName(roomDto.getSubName())
                 .date(roomDto.getDate())
                 .location(roomDto.getLocation())
-                .url(generatedUrl)  // 랜덤 문자열을 URL로 저장
+                .url(generatedUrl)
                 .build();
 
         Room savedRoom = roomRepository.save(room);
 
-        // 생성된 방의 ID와 URL만 반환하는 DTO 생성
         return new RoomDto(savedRoom.getId(), savedRoom.getUrl());
     }
 
