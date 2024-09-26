@@ -58,7 +58,7 @@ public class QuestionService {
         Question question = questionRepository.save(
                 Question.builder()
                         .roomId(roomId)
-                        .title("question")
+                        .title(questionRequestDto.title())
                         .content(questionRequestDto.content())
                         .avartarBase64(guest.getAvartarBase64())
                         .likeCount(0)
