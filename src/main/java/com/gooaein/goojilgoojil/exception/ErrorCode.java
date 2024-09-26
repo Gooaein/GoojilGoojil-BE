@@ -16,6 +16,9 @@ public enum ErrorCode {
     NOT_FOUND_LOGIN_USER(40401, HttpStatus.NOT_FOUND, "로그인한 사용자가 존재하지 않습니다."),
     NOT_FOUND_AUTHORIZATION_HEADER(40401, HttpStatus.NOT_FOUND, "Authorization 헤더가 존재하지 않습니다."),
     NOT_FOUND_USER(40401, HttpStatus.NOT_FOUND, "해당 사용자가 존재하지 않습니다."),
+    NOT_FOUND_GUEST(40402, HttpStatus.NOT_FOUND, "해당 게스트가 존재하지 않습니다."),
+    NOT_FOUND_ROOM(40403, HttpStatus.NOT_FOUND, "해당 방이 존재하지 않습니다."),
+    NOT_FOUND_QUESTION(40404, HttpStatus.NOT_FOUND, "해당 질문이 존재하지 않습니다."),
 
     // Invalid Argument Error
     MISSING_REQUEST_PARAMETER(40000, HttpStatus.BAD_REQUEST, "필수 요청 파라미터가 누락되었습니다."),
@@ -26,6 +29,9 @@ public enum ErrorCode {
     BAD_REQUEST_PARAMETER(40005, HttpStatus.BAD_REQUEST, "잘못된 요청 파라미터입니다."),
     BAD_REQUEST_JSON(40006, HttpStatus.BAD_REQUEST, "잘못된 JSON 형식입니다."),
     SEARCH_SHORT_LENGTH_ERROR(40007, HttpStatus.BAD_REQUEST, "검색어는 2글자 이상이어야 합니다."),
+    ALREADY_LIKED_QUESTION(40008, HttpStatus.BAD_REQUEST, "이미 좋아요를 누르셨습니다."),
+    CANNOT_END_ROOM(40009, HttpStatus.BAD_REQUEST, "방 종료는 강연자만 가능합니다."),
+    CANNOT_CHECK_QUESTION(40010, HttpStatus.BAD_REQUEST, "질문 답변은 강연자만 가능합니다."),
 
 
     // Access Denied Error

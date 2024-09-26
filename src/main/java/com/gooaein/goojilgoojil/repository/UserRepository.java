@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByIdAndRefreshTokenAndIsLogin(Long id, String refreshToken, Boolean isLogin);
 
+    Optional<User> findBySessionId(String sessionId);
+
     Optional<User> findBySerialId(String serialId);
     Boolean existsBySerialId(String serialId);
 
