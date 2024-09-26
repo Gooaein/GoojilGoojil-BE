@@ -10,7 +10,7 @@ public record QuestionResponseDto(
         String content,
         String avartarBase64,
         String sendTime,
-        String likeCount,
+        Integer likeCount,
         String status
 ) {
 }
