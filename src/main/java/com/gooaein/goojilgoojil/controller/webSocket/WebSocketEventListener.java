@@ -1,4 +1,4 @@
-package com.gooaein.goojilgoojil.controller;
+package com.gooaein.goojilgoojil.controller.webSocket;
 
 import com.gooaein.goojilgoojil.exception.CommonException;
 import com.gooaein.goojilgoojil.service.RoomService;
