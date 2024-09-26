@@ -16,14 +16,12 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/rooms")
 public class RoomController {
     private final RoomService roomService;
     private final ReviewService reviewService;
@@ -53,25 +51,25 @@ public class RoomController {
         roomService.endRoom(sessionId, roomId, endRoomRequestDto.url());
     }
 
-    @GetMapping("")
+    @GetMapping("/api/v1/rooms")
     public ResponseDto<?> getRooms() {
         List<RoomDto> rooms = roomService.getAllRooms();
         return ResponseDto.ok(rooms);
     }
 
-    @PostMapping("")
+    @PostMapping("/api/v1/rooms")
     public ResponseDto<?> createRoom(@RequestBody RoomDto roomDto) {
         RoomDto createdRoom = roomService.createRoom(roomDto);  // 제대로 매핑되었는지 확인
         return ResponseDto.ok(createdRoom);
     }
 
-    @GetMapping("/{room_id}/review")
+    @GetMapping("/api/v1/rooms/{room_id}/review")
     public ResponseDto<?> getReview(@PathVariable("room_id") Long roomId) {
         ReviewDto reviewDto = reviewService.getReviewByRoomId(roomId);
         return ResponseDto.ok(reviewDto);
     }
 
-    @PostMapping("/{room_id}/review")
+    @PostMapping("/api/v1/rooms/{room_id}/review")
     public ResponseDto<?> createReview(
             @PathVariable("room_id") Long roomId,
             @Valid @RequestBody ReviewCreateDto reviewCreateDto,
