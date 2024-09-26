@@ -41,11 +41,13 @@ public class JwtUtil implements InitializingBean {
                 .parseClaimsJws(token)
                 .getBody();
     }
-    public String generateToken(Long id, ERole role, Integer expiration){
+    public String generateToken(Long id, ERole role, Integer expiration, String tokenType){
         Claims claims = Jwts.claims();
         claims.put(Constants.CLAIM_USER_ID, id);
+        claims.put("token_type", tokenType);
         if (role != null)
             claims.put(Constants.CLAIM_USER_ROLE, role);
+
 
         return Jwts.builder()
                 .setHeaderParam(Header.JWT_TYPE, Header.JWT_TYPE)
@@ -57,8 +59,8 @@ public class JwtUtil implements InitializingBean {
     }
     public JwtTokenDto generateTokens(Long id, ERole role){
         return JwtTokenDto.of(
-                generateToken(id, role, accessExpiration),
-                generateToken(id, role, refreshExpiration)
+                generateToken(id, role, accessExpiration, "access"),
+                generateToken(id, role, refreshExpiration, "refresh")
         );
     }
 
@@ -70,7 +72,7 @@ public class JwtUtil implements InitializingBean {
             ERole role = ERole.valueOf(claims.get(Constants.CLAIM_USER_ROLE, String.class));
 
             // 새 Access Token 생성
-            return generateToken(userId, role, accessExpiration);
+            return generateToken(userId, role, accessExpiration, "access");
         } else {
             throw new IllegalArgumentException("Invalid Refresh Token");
         }
