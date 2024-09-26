@@ -61,4 +61,25 @@ public class JwtUtil implements InitializingBean {
                 generateToken(id, role, refreshExpiration)
         );
     }
+
+    // Refresh Token 검증 후 새로운 Access Token 생성
+    public String generateAccessTokenFromRefreshToken(String refreshToken) {
+        Claims claims = validateToken(refreshToken);  // Refresh Token 검증
+        if (isRefreshToken(claims)) {
+            Long userId = claims.get(Constants.CLAIM_USER_ID, Long.class);
+            ERole role = ERole.valueOf(claims.get(Constants.CLAIM_USER_ROLE, String.class));
+
+            // 새 Access Token 생성
+            return generateToken(userId, role, accessExpiration);
+        } else {
+            throw new IllegalArgumentException("Invalid Refresh Token");
+        }
+    }
+
+    // Refresh Token 확인
+    public boolean isRefreshToken(Claims claims) {
+        // Refresh Token인지 여부를 구분하는 로직 (custom claim이 필요할 수도 있음)
+        // 예: "token_type"이 refresh인 경우에만 Refresh Token으로 간주
+        return claims.getExpiration().getTime() - System.currentTimeMillis() > accessExpiration;
+    }
 }

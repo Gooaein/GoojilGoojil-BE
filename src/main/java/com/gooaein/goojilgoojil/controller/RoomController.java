@@ -1,36 +1,42 @@
 package com.gooaein.goojilgoojil.controller;
 
-import com.gooaein.goojilgoojil.dto.global.ResponseDto;
-import com.gooaein.goojilgoojil.dto.request.RoomDto;
+import com.gooaein.goojilgoojil.dto.request.EndRoomRequestDto;
 import com.gooaein.goojilgoojil.service.RoomService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/rooms")
+@RestController
 public class RoomController {
     private final RoomService roomService;
 
-    // 방 목록 조회
-    @GetMapping("")
-    public ResponseDto<?> getRooms() {
-        return ResponseDto.ok(roomService.getAllRooms());
+    @MessageMapping("/rooms/{roomId}/in")
+    @Operation(summary = "방 입장", description = "방에 입장하고 다른 유저들에게 입장을 알립니다.")
+    public void enterRoom(
+            @DestinationVariable String roomId,
+            SimpMessageHeaderAccessor headerAccessor) {
+
+        // WebSocket 세션 ID 가져오기
+        String sessionId = headerAccessor.getSessionId();
+
+        roomService.enterRoom(roomId, sessionId);
     }
 
-    // 방 생성
-    @PostMapping("")
-    public ResponseDto<?> createRoom(@RequestBody RoomDto roomDto) {
-        return ResponseDto.ok(roomService.createRoom(roomDto));
-    }
+    @MessageMapping("/rooms/{roomId}/end")
+    @Operation(summary = "방 종료", description = "방을 종료하고 설문 조사 링크와 함께 다른 유저들에게 방 종료를 알립니다.")
+    public void endRoom(
+            @DestinationVariable String roomId,
+            @Payload EndRoomRequestDto endRoomRequestDto,
+            SimpMessageHeaderAccessor headerAccessor) {
 
-    @PutMapping("/{id}")
-    public ResponseDto<?> updateRoom(@PathVariable Long id, @RequestBody RoomDto roomDto) {
-        return ResponseDto.ok(roomService.updateRoom(id, roomDto));
-    }
+        // WebSocket 세션 ID 가져오기
+        String sessionId = headerAccessor.getSessionId();
 
-    @GetMapping("/{room_id}/review")
-    public ResponseDto<?> getRoomReview(@PathVariable Long room_id) {
-        return ResponseDto.ok(roomService.getRoomReview(room_id));
+        roomService.endRoom(sessionId, roomId, endRoomRequestDto.url());
     }
 }

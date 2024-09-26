@@ -17,11 +17,17 @@ public class Constants {
             "/api/v1/no-auth/**", "api/v1/oauth/login",
             "/api/v1/auth/sign-up",
             "/api/v1/auth/id-duplicate",
+            "/api/v1/rooms/{roomId}/avartar",
+            "/api/v1/rooms/{roomId}/questions",
+            "/api/v1/rooms/{roomId}/guests",
+            "/api/v1/rooms/{roomId}/reviews",
             "/api-docs.html",
             "/api-docs/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
+            "/ws-connection/**",
+            "/ws-connection"
             );
     
     public static List<String> USERS_URLS = List.of(

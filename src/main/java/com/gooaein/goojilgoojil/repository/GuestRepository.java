@@ -1,9 +1,11 @@
 package com.gooaein.goojilgoojil.repository;
 
-import com.gooaein.goojilgoojil.domain.Room;
+import com.gooaein.goojilgoojil.domain.Guest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public interface RoomRepository extends JpaRepository<Room,Long> {
+public interface GuestRepository extends JpaRepository<Guest,Long> {
 }

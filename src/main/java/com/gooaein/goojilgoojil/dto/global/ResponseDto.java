@@ -42,4 +42,8 @@ public record ResponseDto<T>(@JsonIgnore HttpStatus httpStatus,
     public static ResponseDto<Object> fail(final CommonException e) {
         return new ResponseDto<>(e.getErrorCode().getHttpStatus(), false, null, ExceptionDto.of(e.getErrorCode()));
     }
+
+    public static ResponseDto<Object> fail(final org.springframework.messaging.handler.annotation.support.MethodArgumentTypeMismatchException e) {
+        return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR, false, null, ExceptionDto.of(ErrorCode.INVALID_PARAMETER_FORMAT));
+    }
 }
