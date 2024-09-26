@@ -8,7 +8,6 @@ import com.gooaein.goojilgoojil.utility.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,7 +28,9 @@ public class CustomHandshakeInterceptor implements HandshakeInterceptor {
     private JwtAuthenticationManager jwtAuthenticationManager;
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-      String authorizationHeaders = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+//      String authorizationHeaders = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        String authorizationURI = request.getURI().getQuery();
+        String authorizationHeaders = authorizationURI.split("token=")[1];
         if (authorizationHeaders != null && !authorizationHeaders.isEmpty()) {
             String token = authorizationHeaders.substring(7); // "Bearer " 제거
             Claims claims = null;
