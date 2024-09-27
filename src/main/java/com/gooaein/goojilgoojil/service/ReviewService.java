@@ -8,6 +8,7 @@ import com.gooaein.goojilgoojil.repository.ReviewRepository;
 import com.gooaein.goojilgoojil.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final RoomRepository roomRepository;
-
+    @Transactional
     public void createReview(Long roomId, ReviewCreateDto reviewCreateDto) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 방입니다."));

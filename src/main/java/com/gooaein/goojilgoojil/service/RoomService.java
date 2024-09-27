@@ -87,7 +87,7 @@ public class RoomService {
 
         messagingTemplate.convertAndSend("/subscribe/rooms/" + roomId, responseDto);
     }
-
+    @Transactional
     public RoomDto createRoom(RoomDto roomDto) {
         String generatedUrl = generateRandomString(12);
 
