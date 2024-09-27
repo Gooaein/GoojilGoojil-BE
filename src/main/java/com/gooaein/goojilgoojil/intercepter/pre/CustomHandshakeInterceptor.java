@@ -2,10 +2,12 @@ package com.gooaein.goojilgoojil.intercepter.pre;
 
 import com.gooaein.goojilgoojil.constants.Constants;
 import com.gooaein.goojilgoojil.dto.type.ERole;
+import com.gooaein.goojilgoojil.exception.CommonException;
+import com.gooaein.goojilgoojil.exception.ErrorCode;
 import com.gooaein.goojilgoojil.security.info.JwtUserInfo;
 import com.gooaein.goojilgoojil.security.provider.JwtAuthenticationManager;
 import com.gooaein.goojilgoojil.utility.JwtUtil;
-import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.ServerHttpRequest;
@@ -34,19 +36,25 @@ public class CustomHandshakeInterceptor implements HandshakeInterceptor {
         if (authorizationHeaders != null && !authorizationHeaders.isEmpty()) {
             String token = authorizationHeaders.substring(7); // "Bearer " 제거
             Claims claims = null;
-
             try {
-                // Access Token 검증
                 claims = jwtUtil.validateToken(token);
-            } catch (Exception e) {
-                // Access Token이 만료되었을 경우, Refresh Token으로 재발급
-                try {
-                    String newAccessToken = jwtUtil.generateAccessTokenFromRefreshToken(token); // Refresh Token으로 Access Token 재발급
-                    claims = jwtUtil.validateToken(newAccessToken);  // 새로 발급된 Access Token 검증
-                } catch (Exception ex) {
-                    log.error("토큰 재발급 실패: {}", ex.getMessage());
-                    throw new RuntimeException("Invalid Refresh Token");
+
+                if (jwtUtil.isRefreshToken(claims)) {
+                    throw new CommonException(ErrorCode.TOKEN_TYPE_ERROR);
                 }
+
+            } catch (ExpiredJwtException e) {
+                log.error("Token has expired", e);
+                throw new CommonException(ErrorCode.EXPIRED_TOKEN_ERROR);
+            } catch (MalformedJwtException e) {
+                log.error("Malformed token", e);
+                throw new CommonException(ErrorCode.TOKEN_MALFORMED_ERROR);
+            } catch (UnsupportedJwtException e) {
+                log.error("Unsupported token", e);
+                throw new CommonException(ErrorCode.TOKEN_UNSUPPORTED_ERROR);
+            } catch (JwtException e) {
+                log.error("JWT exception", e);
+                throw new CommonException(ErrorCode.TOKEN_UNKNOWN_ERROR);
             }
 
             // 인증 정보 생성 및 설정
