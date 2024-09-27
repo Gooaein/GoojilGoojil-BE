@@ -48,7 +48,7 @@ public class RoomService {
         RoomInOutResponseDto responseDto = RoomInOutResponseDto.builder()
                 .type("in")
                 .guestId(guest.getId().toString())
-                .avartarBase64(guest.getAvartarBase64())
+                .avatarBase64(guest.getAvatarBase64())
                 .sendTime(OffsetDateTime.now().toString())
                 .build();
 
@@ -67,7 +67,7 @@ public class RoomService {
         RoomInOutResponseDto responseDto = RoomInOutResponseDto.builder()
                 .type("out")
                 .guestId(guest.getId().toString())
-                .avartarBase64(guest.getAvartarBase64())
+                .avatarBase64(guest.getAvatarBase64())
                 .sendTime(OffsetDateTime.now().toString())
                 .build();
 

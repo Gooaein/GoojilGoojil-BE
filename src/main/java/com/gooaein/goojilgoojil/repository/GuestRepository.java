@@ -14,6 +14,6 @@ import com.gooaein.goojilgoojil.dto.response.GuestResponseDto;
 public interface GuestRepository extends JpaRepository<Guest, Long> {
 
 	@Query("SELECT new com.gooaein.goojilgoojil.dto.response.GuestResponseDto("
-		+ " g.id, g.avartarBase64) FROM Guest g WHERE g.room = :room")
+		+ " g.id, g.avatarBase64) FROM Guest g WHERE g.room = :room")
 	List<GuestResponseDto> findGuestsByRoom(Room room);
 }

@@ -53,7 +53,7 @@ public class LikeConsumerService {
         QuestionResponseDto responseDto = QuestionResponseDto.builder()
                 .type("like")
                 .questionId(question.getId())
-                .avartarBase64(guest.getAvartarBase64())
+                .avatarBase64(guest.getAvatarBase64())
                 .sendTime(question.getSendTime())
                 .likeCount(question.getLikeCount())
                 .status(question.getStatus())
