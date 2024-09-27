@@ -29,6 +29,23 @@ public class Constants {
             "/ws-connection/**",
             "/ws-connection"
             );
+    public static List<String> NO_NEED_FILTER_URLS = List.of(
+            "/api/v1/no-filter/**",
+            "/api/v1/oauth/login",
+            "/api/v1/auth/sign-up",
+            "/api/v1/auth/id-duplicate",
+            "/api/v1/rooms/[^/]+/avatar",
+            "/api/v1/rooms/[^/]+/questions",
+            "/api/v1/rooms/[^/]+/guests",
+            "/api/v1/rooms/[^/]+/reviews",
+            "/api-docs.html",
+            "/api-docs/**",
+            "/swagger-resources/**",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/ws-connection/**",
+            "/ws-connection"
+    );
     
     public static List<String> USERS_URLS = List.of(
             "/api/v1/users/**");
