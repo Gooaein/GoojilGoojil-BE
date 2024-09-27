@@ -4,6 +4,7 @@ import com.gooaein.goojilgoojil.exception.ErrorCode;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.Getter;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
@@ -26,9 +27,19 @@ public class ArgumentNotValidExceptionDto extends ExceptionDto {
         super(ErrorCode.INVALID_ARGUMENT);
 
         this.errorFields = new HashMap<>();
-
-        for (ConstraintViolation<?> constraintViolation : constraintViolationException.getConstraintViolations()) {
-            errorFields.put(constraintViolation.getPropertyPath().toString(), constraintViolation.getMessage());
+        for (ConstraintViolation<?> violation : constraintViolationException.getConstraintViolations()) {
+            this.errorFields.put(violation.getPropertyPath().toString(), violation.getMessage());
         }
+    }
+
+    public ArgumentNotValidExceptionDto(final BindingResult bindingResult) {
+        super(ErrorCode.INVALID_ARGUMENT);
+
+        this.errorFields = new HashMap<>();
+        bindingResult.getAllErrors().forEach(e -> {
+            String field = ((FieldError) e).getField();
+            String errorMessage = e.getDefaultMessage();
+            this.errorFields.put(field, errorMessage);
+        });
     }
 }

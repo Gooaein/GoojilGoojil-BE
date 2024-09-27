@@ -1,19 +1,26 @@
 package com.gooaein.goojilgoojil.service;
 
 import com.gooaein.goojilgoojil.domain.Guest;
+import com.gooaein.goojilgoojil.domain.Room;
 import com.gooaein.goojilgoojil.domain.User;
+import com.gooaein.goojilgoojil.dto.request.RoomDto;
 import com.gooaein.goojilgoojil.dto.response.EndRoomResponseDto;
 import com.gooaein.goojilgoojil.dto.response.RoomInOutResponseDto;
 import com.gooaein.goojilgoojil.exception.CommonException;
 import com.gooaein.goojilgoojil.exception.ErrorCode;
 import com.gooaein.goojilgoojil.repository.GuestRepository;
+import com.gooaein.goojilgoojil.repository.RoomRepository;
 import com.gooaein.goojilgoojil.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.time.OffsetDateTime;
+import java.util.Base64;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -22,6 +29,15 @@ public class RoomService {
     private final GuestRepository guestRepository;
     private final UserRepository userRepository;
     private final SimpMessagingTemplate messagingTemplate;
+    private final RoomRepository roomRepository;
+
+    public List<RoomDto> getAllRooms() {
+        List<Room> rooms = roomRepository.findAll();
+
+        return rooms.stream()
+                .map(RoomDto::from)
+                .collect(Collectors.toList());
+    }
 
     public void enterRoom(String roomId, String sessionId) {
         User user = userRepository.findBySessionId(sessionId)
@@ -71,4 +87,29 @@ public class RoomService {
 
         messagingTemplate.convertAndSend("/subscribe/rooms/" + roomId, responseDto);
     }
+    @Transactional
+    public RoomDto createRoom(RoomDto roomDto) {
+        String generatedUrl = generateRandomString(12);
+
+        Room room = Room.builder()
+                .name(roomDto.getName())
+                .subName(roomDto.getSubName())
+                .date(roomDto.getDate())
+                .location(roomDto.getLocation())
+                .url(generatedUrl)
+                .build();
+
+        Room savedRoom = roomRepository.save(room);
+
+        return new RoomDto(savedRoom.getId(), savedRoom.getUrl());
+    }
+
+    // 랜덤 문자열 생성 메소드
+    private String generateRandomString(int length) {
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[length];
+        random.nextBytes(bytes);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes).substring(0, length);
+    }
+
 }

@@ -27,15 +27,18 @@ public class Room {
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
+    @Column(name = "location", nullable = false)  // location 필드를 추가합니다.
+    private String location;
+
     @Column(name = "url", nullable = false)
     private String url;
 
     @Builder
-    public Room(String name, String subName, LocalDateTime date, String url) {
+    public Room(String name, String subName, LocalDateTime date, String location, String url) {
         this.name = name;
         this.subName = subName;
         this.date = date;
+        this.location = location;
         this.url = url;
     }
-
 }
