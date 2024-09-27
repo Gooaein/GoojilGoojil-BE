@@ -30,5 +30,4 @@ public class WebMVCConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns(Constants.NO_NEED_AUTH_URLS);
     }
-
 }

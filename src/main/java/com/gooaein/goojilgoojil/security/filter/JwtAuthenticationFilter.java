@@ -27,19 +27,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // 로컬 환경인 경우 토큰 검증을 우회합니다.
-        if (isLocalEnvironment(request)) {
-            // 로컬 환경이면 가짜 인증 객체를 만들어서 사용합니다.
-            UsernamePasswordAuthenticationToken mockAuthentication = createMockAuthentication();
-            SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-            securityContext.setAuthentication(mockAuthentication);
-            SecurityContextHolder.setContext(securityContext);
-
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        // 그 외의 환경에서는 기존 JWT 검증 로직을 유지
         String token = HeaderUtil.refineHeader(request, Constants.AUTHORIZATION_HEADER, Constants.BEARER_PREFIX)
                 .orElseThrow(() -> new IllegalArgumentException("Authorization Header Is Not Found!"));
         Claims claims = jwtUtil.validateToken(token);
@@ -49,13 +36,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 ERole.valueOf(claims.get(Constants.CLAIM_USER_ROLE, String.class))
         );
 
+        // 인증 받지 않은 인증용 객체
         UsernamePasswordAuthenticationToken unAuthenticatedToken = new UsernamePasswordAuthenticationToken(
                 jwtUserInfo, null, null
         );
 
+        // 인증 받은 후의 인증 객체
         UsernamePasswordAuthenticationToken authenticatedToken
                 = (UsernamePasswordAuthenticationToken) jwtAuthenticationManager.authenticate(unAuthenticatedToken);
 
+        // 사용자의 IP등 세부 정보 인증 정보에 추가
         authenticatedToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
@@ -65,21 +55,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    // 로컬 환경인 경우 true를 반환하는 메서드
-    private boolean isLocalEnvironment(HttpServletRequest request) {
-        return "localhost".equals(request.getServerName()) || "127.0.0.1".equals(request.getServerName());
-    }
-
-    // 가짜 인증 객체 생성 (로컬 환경에서 사용)
-    private UsernamePasswordAuthenticationToken createMockAuthentication() {
-        JwtUserInfo mockUser = new JwtUserInfo(1L, ERole.USER);  // 예시로 USER 권한을 가진 가짜 사용자
-        return new UsernamePasswordAuthenticationToken(mockUser, null, null);
-    }
-
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         return Constants.NO_NEED_AUTH_URLS.contains(request.getRequestURI())
                 || request.getRequestURI().startsWith("/guest");
     }
 }
-
