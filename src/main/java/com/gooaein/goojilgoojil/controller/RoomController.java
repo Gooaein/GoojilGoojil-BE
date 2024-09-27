@@ -60,16 +60,16 @@ public class RoomController {
     @PostMapping("/api/v1/rooms")
     public ResponseDto<?> createRoom(@RequestBody RoomDto roomDto) {
         RoomDto createdRoom = roomService.createRoom(roomDto);  // 제대로 매핑되었는지 확인
-        return ResponseDto.ok(createdRoom);
+        return ResponseDto.created(createdRoom.getUrl());
     }
 
-    @GetMapping("/api/v1/rooms/{room_id}/review")
+    @GetMapping("/api/v1/rooms/{room_id}/reviews")
     public ResponseDto<?> getReview(@PathVariable("room_id") Long roomId) {
         ReviewDto reviewDto = reviewService.getReviewByRoomId(roomId);
         return ResponseDto.ok(reviewDto);
     }
 
-    @PostMapping("/api/v1/rooms/{room_id}/review")
+    @PostMapping("/api/v1/rooms/{room_id}/reviews")
     public ResponseDto<?> createReview(
             @PathVariable("room_id") Long roomId,
             @Valid @RequestBody ReviewCreateDto reviewCreateDto,
