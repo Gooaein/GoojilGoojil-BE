@@ -27,10 +27,18 @@ public class Guest {
     @Column(name = "avatar_base64", columnDefinition = "LONGBLOB")
     private byte[] avatarBase64;
 
+    @Column(name = "is_in")
+    private boolean isIn;
+
     @Builder
     public Guest(User user, Room room, byte[] avatarBase64) {
         this.user = user;
         this.room = room;
         this.avatarBase64 = avatarBase64;
+        this.isIn = false;
+    }
+
+    public void enterRoom() {
+        this.isIn = true;
     }
 }
