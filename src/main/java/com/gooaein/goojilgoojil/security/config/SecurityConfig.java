@@ -53,7 +53,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(registry ->
                         registry
                                 .requestMatchers(Constants.NO_NEED_AUTH_URLS.toArray(String[]::new)).permitAll()
-                                .requestMatchers(Constants.USERS_URLS.toArray(String[]::new)).hasRole("USER")
                                 .anyRequest().authenticated()
                 )
 
@@ -73,7 +72,7 @@ public class SecurityConfig {
                 )
                 .logout(configurer ->
                         configurer
-                                .logoutUrl("/api/v1/auth/logout")
+                                .logoutUrl("/api/v1/users/auth/logout")
                                 .addLogoutHandler(customLogoutProcessHandler)
                                 .logoutSuccessHandler(customLoginResultHandler)
                 )

@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .orElseThrow(() -> new IllegalArgumentException("Authorization Header Is Not Found!"));
         Claims claims = jwtUtil.validateToken(token);
 
-        if (request.getRequestURI().equals("/api/v1/auth/reissue")) { // access 재발행 로직인 경우
+        if (request.getRequestURI().equals("/api/v1/users/auth/reissue")) { // access 재발행 로직인 경우
             if (!jwtUtil.isRefreshToken(claims)) { // refresh token이 아닌 경우
                 throw new CommonException(ErrorCode.TOKEN_TYPE_ERROR);
             }
