@@ -21,6 +21,8 @@ public class ExceptionDto {
     }
 
     public static ExceptionDto of(ErrorCode errorCode) {
+        if(errorCode == null)
+            return new ExceptionDto(ErrorCode.INTERNAL_SERVER_ERROR);
         return new ExceptionDto(errorCode);
     }
 }

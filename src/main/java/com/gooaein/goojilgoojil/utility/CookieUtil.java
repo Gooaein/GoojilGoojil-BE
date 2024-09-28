@@ -72,7 +72,9 @@ public class CookieUtil {
     }
     public static Optional<String> refineCookie(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();
-
+        if(cookies == null) {
+            return Optional.empty();
+        }
         return Arrays.stream(cookies)
                 .filter(cookie -> cookie.getName().equals(name))
                 .findFirst().map(Cookie::getValue);

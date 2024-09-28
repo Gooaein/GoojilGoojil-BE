@@ -13,20 +13,18 @@ import java.time.LocalDateTime;
 public class RoomDto {
     private Long id;
     private String name;
-
-    @JsonProperty("sub_name")
-    private String subName;
-
     private LocalDateTime date;
     private String location;  // location 필드 추가
+    @JsonProperty("like_threshold")
+    private Integer likeThreshold;
     private String url;
     @Builder
-    public RoomDto(Long id, String name, String subName, LocalDateTime date, String location, String url) {
+    public RoomDto(Long id, String name, LocalDateTime date, String location, String url, Integer likeThreshold) {
         this.id = id;
         this.name = name;
-        this.subName = subName;
         this.date = date;
         this.location = location;
+        this.likeThreshold = likeThreshold;
         this.url = url;
     }
 
@@ -39,10 +37,10 @@ public class RoomDto {
         return new RoomDto(
                 room.getId(),
                 room.getName(),
-                room.getSubName(),
                 room.getDate(),
                 room.getLocation(),
-                room.getUrl()
+                room.getUrl(),
+                room.getLikeThreshold()
         );
     }
 }

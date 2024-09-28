@@ -36,7 +36,7 @@ public class AuthenticationResponse {
         if (errorCode != null) {
             response.setStatus(errorCode.getHttpStatus().value());
         } else {
-            response.setStatus(HttpStatus.BAD_REQUEST.value());  // 기본값 설정
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());  // 기본값 설정
         }
 
         Map<String, Object> body= new HashMap<>();

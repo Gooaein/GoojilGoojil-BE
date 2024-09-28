@@ -57,6 +57,11 @@ public class RoomController {
         return ResponseDto.ok(rooms);
     }
 
+    @GetMapping("/api/v1/rooms/{room_id}")
+    public ResponseDto<?> getRoom(@PathVariable("room_id") Long roomId) {
+        return ResponseDto.ok(roomService.getRoom(roomId));
+    }
+
     @PostMapping("/api/v1/rooms")
     public ResponseDto<?> createRoom(@RequestBody RoomDto roomDto) {
         return ResponseDto.created(roomService.createRoom(roomDto));
