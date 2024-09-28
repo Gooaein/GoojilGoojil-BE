@@ -6,6 +6,7 @@ import com.gooaein.goojilgoojil.domain.User;
 import com.gooaein.goojilgoojil.dto.request.RoomDto;
 import com.gooaein.goojilgoojil.dto.response.EndRoomResponseDto;
 import com.gooaein.goojilgoojil.dto.response.RoomInOutResponseDto;
+import com.gooaein.goojilgoojil.dto.response.UUIDDto;
 import com.gooaein.goojilgoojil.exception.CommonException;
 import com.gooaein.goojilgoojil.exception.ErrorCode;
 import com.gooaein.goojilgoojil.repository.GuestRepository;
@@ -88,7 +89,7 @@ public class RoomService {
         messagingTemplate.convertAndSend("/subscribe/rooms/" + roomId, responseDto);
     }
     @Transactional
-    public RoomDto createRoom(RoomDto roomDto) {
+    public UUIDDto createRoom(RoomDto roomDto) {
         String generatedUrl = generateRandomString(12);
 
         Room room = Room.builder()
@@ -101,7 +102,9 @@ public class RoomService {
 
         Room savedRoom = roomRepository.save(room);
 
-        return new RoomDto(savedRoom.getId(), savedRoom.getUrl());
+        return UUIDDto.builder()
+                .uuid(savedRoom.getUrl())
+                .build();
     }
 
     // 랜덤 문자열 생성 메소드

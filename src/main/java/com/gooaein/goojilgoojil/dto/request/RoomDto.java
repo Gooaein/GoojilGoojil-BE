@@ -2,6 +2,7 @@ package com.gooaein.goojilgoojil.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gooaein.goojilgoojil.domain.Room;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +20,7 @@ public class RoomDto {
     private LocalDateTime date;
     private String location;  // location 필드 추가
     private String url;
-
+    @Builder
     public RoomDto(Long id, String name, String subName, LocalDateTime date, String location, String url) {
         this.id = id;
         this.name = name;

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import com.gooaein.goojilgoojil.dto.global.ResponseDto;
+import com.gooaein.goojilgoojil.dto.response.RoomNumberDto;
 import com.gooaein.goojilgoojil.security.info.AuthenticationResponse;
 import com.gooaein.goojilgoojil.utility.CookieUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,17 +39,18 @@ public class GuestService {
 	private final JwtUtil jwtUtil;
 
 	@Transactional
-	public void createAvatar(
+	public RoomNumberDto createAvatar(
 			HttpServletResponse response,
-			Long roomId,
+			String uuid,
 			AvatarRequestDto avatarRequestDto) throws IOException {
 
 		User guestUser = saveUser();
 
 		JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(guestUser.getId(), ERole.GUEST);
 		guestUser.updateRefreshToken(jwtTokenDto.refreshToken());
+		guestUser.updateLoginStatus(true);
 
-		Room room = getRoomByRoomId(roomId);
+		Room room = getRoomByUUID(uuid);
 
 		Guest guest = Guest.builder()
 			.user(guestUser)
@@ -57,7 +60,7 @@ public class GuestService {
 
 		guestRepository.save(guest);
 		AuthenticationResponse.makeLoginSuccessResponse(response, jwtTokenDto, jwtUtil.getRefreshExpiration());
-		response.sendRedirect("https://goojilgoojil.com/");
+		return RoomNumberDto.builder().roomId(room.getId()).build();
 	}
 
 	// 임시 유저 저장
@@ -79,9 +82,14 @@ public class GuestService {
 	}
 
 	// 방 아이디로 방 조회
+	private Room getRoomByUUID(String uuid) {
+		return roomRepository.findByUrl(uuid)
+			.orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ROOM));
+	}
+
 	private Room getRoomByRoomId(Long roomId) {
 		return roomRepository.findById(roomId)
-			.orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ROOM));
+				.orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ROOM));
 	}
 
 	@Transactional(readOnly = true)
