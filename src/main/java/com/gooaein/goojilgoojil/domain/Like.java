@@ -16,7 +16,7 @@ public class Like {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
     @Column(name = "question_id")
@@ -29,5 +29,9 @@ public class Like {
     public Like(User user, String questionId) {
         this.user = user;
         this.questionId = questionId;
+    }
+
+    public void updateUserByQuit() {
+        this.user = null;
     }
 }

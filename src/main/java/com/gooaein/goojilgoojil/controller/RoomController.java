@@ -1,5 +1,6 @@
 package com.gooaein.goojilgoojil.controller;
 
+import com.gooaein.goojilgoojil.annotation.UserId;
 import com.gooaein.goojilgoojil.dto.global.ArgumentNotValidExceptionDto;
 import com.gooaein.goojilgoojil.dto.request.RoomDto;
 import com.gooaein.goojilgoojil.dto.global.ResponseDto;
@@ -51,29 +52,29 @@ public class RoomController {
         roomService.endRoom(sessionId, roomId, endRoomRequestDto.url());
     }
 
-    @GetMapping("/api/v1/rooms")
-    public ResponseDto<?> getRooms() {
-        List<RoomDto> rooms = roomService.getAllRooms();
+    @GetMapping("/api/v1/users/rooms")
+    public ResponseDto<?> getRooms(@UserId Long userId) {
+        List<RoomDto> rooms = roomService.getAllRooms(userId);
         return ResponseDto.ok(rooms);
     }
 
-    @GetMapping("/api/v1/rooms/{room_id}")
+    @GetMapping("/api/v1/users/rooms/{room_id}")
     public ResponseDto<?> getRoom(@PathVariable("room_id") Long roomId) {
         return ResponseDto.ok(roomService.getRoom(roomId));
     }
 
-    @PostMapping("/api/v1/rooms")
-    public ResponseDto<?> createRoom(@RequestBody RoomDto roomDto) {
-        return ResponseDto.created(roomService.createRoom(roomDto));
+    @PostMapping("/api/v1/users/rooms")
+    public ResponseDto<?> createRoom(@UserId Long userId, @RequestBody RoomDto roomDto) {
+        return ResponseDto.created(roomService.createRoom(userId, roomDto));
     }
 
-    @GetMapping("/api/v1/rooms/{room_id}/reviews")
+    @GetMapping("/api/v1/users/rooms/{room_id}/reviews")
     public ResponseDto<?> getReview(@PathVariable("room_id") Long roomId) {
         ReviewDto reviewDto = reviewService.getReviewByRoomId(roomId);
         return ResponseDto.ok(reviewDto);
     }
 
-    @PostMapping("/api/v1/rooms/{room_id}/reviews")
+    @PostMapping("/api/v1/users/rooms/{room_id}/reviews")
     public ResponseDto<?> createReview(
             @PathVariable("room_id") Long roomId,
             @Valid @RequestBody ReviewCreateDto reviewCreateDto,

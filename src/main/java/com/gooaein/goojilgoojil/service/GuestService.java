@@ -42,7 +42,7 @@ public class GuestService {
 	public RoomNumberDto createAvatar(
 			HttpServletResponse response,
 			String uuid,
-			AvatarRequestDto avatarRequestDto) throws IOException {
+			AvatarRequestDto avatarRequestDto) {
 
 		User guestUser = saveUser();
 

@@ -4,7 +4,6 @@ import com.gooaein.goojilgoojil.constants.Constants;
 import com.gooaein.goojilgoojil.annotation.UserId;
 import com.gooaein.goojilgoojil.dto.global.ResponseDto;
 import com.gooaein.goojilgoojil.dto.request.AuthSignUpDto;
-import com.gooaein.goojilgoojil.dto.request.OauthLoginDto;
 import com.gooaein.goojilgoojil.dto.response.JwtTokenDto;
 import com.gooaein.goojilgoojil.exception.CommonException;
 import com.gooaein.goojilgoojil.exception.ErrorCode;
@@ -43,7 +42,7 @@ public class AuthController {
         authService.signUp(authSignUpDto);
     }
 
-    @PostMapping("/auth/reissue")
+    @PostMapping("/users/auth/reissue")
     @Operation(summary = "Access 토큰 재발급", description = "Access 토큰을 재발급합니다.")
     public ResponseDto<?> reissue(
             HttpServletRequest request,
