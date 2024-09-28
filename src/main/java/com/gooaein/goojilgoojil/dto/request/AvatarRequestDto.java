@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record AvatarRequestDto(
 	@JsonProperty("avatar_base64")
-	String avatarBase64
+	byte[] avatarBase64,
+	@JsonProperty("uuid")
+	String uuid
 ) {
 }

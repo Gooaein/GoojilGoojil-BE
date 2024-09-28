@@ -8,7 +8,7 @@ public record QuestionResponseDto(
         String questionId,
         String title,
         String content,
-        String avatarBase64,
+        byte[] avatarBase64,
         String sendTime,
         Integer likeCount,
         String status

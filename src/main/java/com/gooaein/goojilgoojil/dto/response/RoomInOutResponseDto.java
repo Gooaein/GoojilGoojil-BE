@@ -6,7 +6,7 @@ import lombok.Builder;
 public record RoomInOutResponseDto(
         String type,
         String guestId,
-        String avatarBase64,
+        byte[] avatarBase64,
         String sendTime
 ) {
 }
