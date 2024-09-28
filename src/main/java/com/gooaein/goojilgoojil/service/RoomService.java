@@ -40,6 +40,13 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
+    public RoomDto getRoom(Long roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ROOM));
+
+        return RoomDto.from(room);
+    }
+
     public void enterRoom(String roomId, String sessionId) {
         User user = userRepository.findBySessionId(sessionId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
@@ -62,8 +69,8 @@ public class RoomService {
         Guest guest = guestRepository.findById(user.getId())
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
-//        guestRepository.delete(guest); TODO: 테스트 이후로 풀어야되는 주석
-//        userRepository.delete(user); TODO: 테스트 이후로 풀어야되는 주석
+        guestRepository.delete(guest);
+        userRepository.delete(user);
 
         RoomInOutResponseDto responseDto = RoomInOutResponseDto.builder()
                 .type("out")
@@ -76,10 +83,10 @@ public class RoomService {
     }
 
     public void endRoom(String sessionId, String roomId, String url) {
-//        User user = userRepository.findBySessionId(sessionId) TODO: 테스트 이후로 풀어야되는 주석
-//                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER)); TODO: 테스트 이후로 풀어야되는 주석
-//        if (guestRepository.findById(user.getId()).isPresent()) TODO: 테스트 이후로 풀어야되는 주석
-//            throw new CommonException(ErrorCode.CANNOT_END_ROOM); TODO: 테스트 이후로 풀어야되는 주석
+        User user = userRepository.findBySessionId(sessionId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+        if (guestRepository.findById(user.getId()).isPresent())
+            throw new CommonException(ErrorCode.CANNOT_END_ROOM);
         EndRoomResponseDto responseDto = EndRoomResponseDto.builder()
                 .type("end")
                 .url(url)
@@ -94,9 +101,9 @@ public class RoomService {
 
         Room room = Room.builder()
                 .name(roomDto.getName())
-                .subName(roomDto.getSubName())
                 .date(roomDto.getDate())
                 .location(roomDto.getLocation())
+                .likeThreshold(roomDto.getLikeThreshold())
                 .url(generatedUrl)
                 .build();
 
