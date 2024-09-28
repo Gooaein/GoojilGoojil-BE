@@ -1,6 +1,8 @@
 package com.gooaein.goojilgoojil.security.filter;
 
 import com.gooaein.goojilgoojil.dto.type.ERole;
+import com.gooaein.goojilgoojil.exception.CommonException;
+import com.gooaein.goojilgoojil.exception.ErrorCode;
 import com.gooaein.goojilgoojil.security.provider.JwtAuthenticationManager;
 import com.gooaein.goojilgoojil.utility.JwtUtil;
 import com.gooaein.goojilgoojil.constants.Constants;
@@ -31,6 +33,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .orElseThrow(() -> new IllegalArgumentException("Authorization Header Is Not Found!"));
         Claims claims = jwtUtil.validateToken(token);
 
+        if (request.getRequestURI().equals("/api/v1/auth/reissue")) { // access 재발행 로직인 경우
+            if (!jwtUtil.isRefreshToken(claims)) { // refresh token이 아닌 경우
+                throw new CommonException(ErrorCode.TOKEN_TYPE_ERROR);
+            }
+        } else if (jwtUtil.isRefreshToken(claims)) { // 일반적인 API 호출인 경우일 때 refresh token인 경우
+            throw new CommonException(ErrorCode.TOKEN_TYPE_ERROR);
+        }
+
         JwtUserInfo jwtUserInfo = new JwtUserInfo(
                 claims.get(Constants.CLAIM_USER_ID, Long.class),
                 ERole.valueOf(claims.get(Constants.CLAIM_USER_ROLE, String.class))
@@ -57,7 +67,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return Constants.NO_NEED_AUTH_URLS.contains(request.getRequestURI())
-                || request.getRequestURI().startsWith("/guest");
+        String requestURI = request.getRequestURI();
+
+        // 인증이 필요 없는 URL 목록에 포함되는지 확인
+        return Constants.NO_NEED_FILTER_URLS.stream()
+                .anyMatch(excludePattern -> requestURI.matches(excludePattern.replace("**", ".*")));
     }
 }

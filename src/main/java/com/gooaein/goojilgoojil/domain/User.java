@@ -67,6 +67,9 @@ public class User {
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
+    public void updateLoginStatus(Boolean isLogin) {
+        this.isLogin = isLogin;
+    }
 
     public static User signUp(AuthSignUpDto authSignUpDto, String encodedPassword) {
         return User.builder()

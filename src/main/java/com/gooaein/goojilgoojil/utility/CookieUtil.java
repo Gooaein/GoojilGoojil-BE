@@ -31,7 +31,7 @@ public class CookieUtil {
                 .domain("goojilgoojil.com")
                 .maxAge(60 * 60 * 24) // 1시간 설정
                 .httpOnly(false)
-                .sameSite("Lax")
+                .sameSite("None")
                 .secure(true)
                 .build();
         response.addHeader("Set-Cookie", cookie.toString());
@@ -43,7 +43,7 @@ public class CookieUtil {
                 .domain("goojilgoojil.com")
                 .maxAge(maxAge)
                 .httpOnly(false)
-                .sameSite("Lax")
+                .sameSite("None")
                 .secure(true)
                 .build();
         response.addHeader("Set-Cookie", cookie.toString());
@@ -63,7 +63,7 @@ public class CookieUtil {
                         .domain("goojilgoojil.com")
                         .maxAge(0)
                         .httpOnly(false)
-                        .sameSite("Lax")
+                        .sameSite("None")
                         .secure(true)
                         .build();
                 response.addHeader("Set-Cookie", deleteCookie.toString());

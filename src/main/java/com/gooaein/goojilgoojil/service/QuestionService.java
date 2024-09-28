@@ -32,7 +32,6 @@ public class QuestionService {
     private final GuestRepository guestRepository;
     private final UserRepository userRepository;
     private final SimpMessagingTemplate messagingTemplate;
-    private final LikeRepository likeRepository;
 
     public List<QuestionResponseDto> getQuestions(String roomId) {
         return questionRepository.findAllByRoomId(roomId).stream()
@@ -41,7 +40,7 @@ public class QuestionService {
                         .type("question")
                         .title(question.getTitle())
                         .content(question.getContent())
-                        .avartarBase64(question.getAvartarBase64())
+                        .avatarBase64(question.getAvatarBase64())
                         .sendTime(question.getSendTime())
                         .likeCount(question.getLikeCount())
                         .status(question.getStatus())
@@ -60,7 +59,7 @@ public class QuestionService {
                         .roomId(roomId)
                         .title(questionRequestDto.title())
                         .content(questionRequestDto.content())
-                        .avartarBase64(guest.getAvartarBase64())
+                        .avatarBase64(guest.getAvatarBase64())
                         .likeCount(0)
                         .status("false")
                         .build()
@@ -71,7 +70,7 @@ public class QuestionService {
                 .questionId(question.getId())
                 .title(questionRequestDto.title())
                 .content(questionRequestDto.content())
-                .avartarBase64(guest.getAvartarBase64())
+                .avatarBase64(guest.getAvatarBase64())
                 .sendTime(OffsetDateTime.now().toString())
                 .likeCount(question.getLikeCount())
                 .status(question.getStatus())

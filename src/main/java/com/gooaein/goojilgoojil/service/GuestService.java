@@ -1,8 +1,15 @@
 package com.gooaein.goojilgoojil.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import com.gooaein.goojilgoojil.dto.global.ResponseDto;
+import com.gooaein.goojilgoojil.dto.response.RoomNumberDto;
+import com.gooaein.goojilgoojil.security.info.AuthenticationResponse;
+import com.gooaein.goojilgoojil.utility.CookieUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,21 +39,28 @@ public class GuestService {
 	private final JwtUtil jwtUtil;
 
 	@Transactional
-	public JwtTokenDto createAvatar(Long roomId, AvatarRequestDto avatarRequestDto) {
+	public RoomNumberDto createAvatar(
+			HttpServletResponse response,
+			String uuid,
+			AvatarRequestDto avatarRequestDto) throws IOException {
 
 		User guestUser = saveUser();
 
-		Room room = getRoomByRoomId(roomId);
+		JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(guestUser.getId(), ERole.GUEST);
+		guestUser.updateRefreshToken(jwtTokenDto.refreshToken());
+		guestUser.updateLoginStatus(true);
+
+		Room room = getRoomByUUID(uuid);
 
 		Guest guest = Guest.builder()
 			.user(guestUser)
 			.room(room)
-			.avartarBase64(avatarRequestDto.avatarBase64())
+			.avatarBase64(avatarRequestDto.avatarBase64())
 			.build();
 
 		guestRepository.save(guest);
-
-		return jwtUtil.generateTokens(guestUser.getId(), ERole.GUEST);
+		AuthenticationResponse.makeLoginSuccessResponse(response, jwtTokenDto, jwtUtil.getRefreshExpiration());
+		return RoomNumberDto.builder().roomId(room.getId()).build();
 	}
 
 	// 임시 유저 저장
@@ -54,7 +68,6 @@ public class GuestService {
 
 		String uuid = UUID.randomUUID().toString();
 		String nickname = "quest" + uuid.substring(0, 8);
-
 		User user = User.builder()
 			.serialId(uuid)
 			.provider(EProvider.DEFAULT)
@@ -63,15 +76,20 @@ public class GuestService {
 			.password(uuid)
 			.build();
 
-		userRepository.save(user);
+		userRepository.saveAndFlush(user);
 
 		return user;
 	}
 
 	// 방 아이디로 방 조회
+	private Room getRoomByUUID(String uuid) {
+		return roomRepository.findByUrl(uuid)
+			.orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ROOM));
+	}
+
 	private Room getRoomByRoomId(Long roomId) {
 		return roomRepository.findById(roomId)
-			.orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ROOM));
+				.orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ROOM));
 	}
 
 	@Transactional(readOnly = true)

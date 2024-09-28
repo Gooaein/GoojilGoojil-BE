@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class ReviewDto {
-    private List<String> questions;  // 질문 목록
+    private List<ReviewQuestionsDto> questions;  // 질문 목록
     private double type1;  // 소수점이 포함된 평균 평점
     private double type2;
     private double type3;
@@ -21,7 +21,7 @@ public class ReviewDto {
     private double type5;
 
     @Builder
-    public ReviewDto(List<String> questions, double type1, double type2, double type3, double type4, double type5) {
+    public ReviewDto(List<ReviewQuestionsDto> questions, double type1, double type2, double type3, double type4, double type5) {
         this.questions = questions;
         this.type1 = type1;
         this.type2 = type2;
@@ -30,7 +30,7 @@ public class ReviewDto {
         this.type5 = type5;
     }
 
-    public static ReviewDto from(List<Review> reviews, List<String> questions) {
+    public static ReviewDto from(List<Review> reviews, List<ReviewQuestionsDto> questions) {
         // 각 리뷰의 평균 계산
         double avgType1 = reviews.stream().mapToInt(Review::getType1).average().orElse(0.0);
         double avgType2 = reviews.stream().mapToInt(Review::getType2).average().orElse(0.0);
@@ -39,7 +39,7 @@ public class ReviewDto {
         double avgType5 = reviews.stream().mapToInt(Review::getType5).average().orElse(0.0);
 
         return ReviewDto.builder()
-                .questions(questions)  // 질문 목록을 설정
+                .questions(questions) // 질문 목록을 설정
                 .type1(avgType1)
                 .type2(avgType2)
                 .type3(avgType3)

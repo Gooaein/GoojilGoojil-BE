@@ -33,7 +33,11 @@ public class AuthenticationResponse {
     public static void makeFailureResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.setStatus(errorCode.getHttpStatus().value());
+        if (errorCode != null) {
+            response.setStatus(errorCode.getHttpStatus().value());
+        } else {
+            response.setStatus(HttpStatus.BAD_REQUEST.value());  // 기본값 설정
+        }
 
         Map<String, Object> body= new HashMap<>();
         body.put("success", false);

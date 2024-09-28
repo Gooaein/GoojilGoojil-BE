@@ -24,13 +24,13 @@ public class Guest {
     @ManyToOne
     private Room room;
 
-    @Column(name = "avartar_base64")
-    private String avartarBase64;
+    @Column(name = "avatar_base64", columnDefinition = "LONGBLOB")
+    private byte[] avatarBase64;
 
     @Builder
-    public Guest(User user, Room room, String avartarBase64) {
+    public Guest(User user, Room room, byte[] avatarBase64) {
         this.user = user;
         this.room = room;
-        this.avartarBase64 = avartarBase64;
+        this.avatarBase64 = avatarBase64;
     }
 }
