@@ -33,12 +33,17 @@ public class Room {
     @Column(name = "like_threshold", nullable = false)
     private Integer likeThreshold;
 
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     @Builder
-    public Room(String name, LocalDateTime date, String location, String url, Integer likeThreshold) {
+    public Room(String name, LocalDateTime date, String location, String url, Integer likeThreshold, User user) {
         this.name = name;
         this.date = date;
         this.location = location;
         this.likeThreshold = likeThreshold;
         this.url = url;
+        this.user = user;
     }
 }

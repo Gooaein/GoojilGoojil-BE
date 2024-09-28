@@ -1,6 +1,7 @@
 package com.gooaein.goojilgoojil.service;
 
 import com.gooaein.goojilgoojil.domain.Guest;
+import com.gooaein.goojilgoojil.domain.Like;
 import com.gooaein.goojilgoojil.domain.Room;
 import com.gooaein.goojilgoojil.domain.User;
 import com.gooaein.goojilgoojil.dto.request.RoomDto;
@@ -10,6 +11,7 @@ import com.gooaein.goojilgoojil.dto.response.UUIDDto;
 import com.gooaein.goojilgoojil.exception.CommonException;
 import com.gooaein.goojilgoojil.exception.ErrorCode;
 import com.gooaein.goojilgoojil.repository.GuestRepository;
+import com.gooaein.goojilgoojil.repository.LikeRepository;
 import com.gooaein.goojilgoojil.repository.RoomRepository;
 import com.gooaein.goojilgoojil.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +33,10 @@ public class RoomService {
     private final UserRepository userRepository;
     private final SimpMessagingTemplate messagingTemplate;
     private final RoomRepository roomRepository;
+    private final LikeRepository likeRepository;
 
-    public List<RoomDto> getAllRooms() {
-        List<Room> rooms = roomRepository.findAll();
+    public List<RoomDto> getAllRooms(Long userId) {
+        List<Room> rooms = roomRepository.findAllByUserId(userId);
 
         return rooms.stream()
                 .map(RoomDto::from)
@@ -46,31 +49,32 @@ public class RoomService {
 
         return RoomDto.from(room);
     }
-
+    
+    @Transactional
     public void enterRoom(String roomId, String sessionId) {
         User user = userRepository.findBySessionId(sessionId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
         Guest guest = guestRepository.findById(user.getId())
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
-        RoomInOutResponseDto responseDto = RoomInOutResponseDto.builder()
-                .type("in")
-                .guestId(guest.getId().toString())
-                .avatarBase64(guest.getAvatarBase64())
-                .sendTime(OffsetDateTime.now().toString())
-                .build();
+        if(!guest.isIn()) { // 방에 처음 들어온 경우에만 처리
+            guest.enterRoom();
+            RoomInOutResponseDto responseDto = RoomInOutResponseDto.builder()
+                    .type("in")
+                    .guestId(guest.getId().toString())
+                    .avatarBase64(guest.getAvatarBase64())
+                    .sendTime(OffsetDateTime.now().toString())
+                    .build();
 
-        messagingTemplate.convertAndSend("/subscribe/rooms/" + roomId, responseDto);
+            messagingTemplate.convertAndSend("/subscribe/rooms/" + roomId, responseDto);
+        }
     }
     @Transactional
-    public void exitRoom(String sessionId) {
-        User user = userRepository.findBySessionId(sessionId)
+    public void exitRoom(Long userId) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
-        Guest guest = guestRepository.findById(user.getId())
+        Guest guest = guestRepository.findById(userId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
-
-        guestRepository.delete(guest);
-        userRepository.delete(user);
 
         RoomInOutResponseDto responseDto = RoomInOutResponseDto.builder()
                 .type("out")
@@ -78,8 +82,10 @@ public class RoomService {
                 .avatarBase64(guest.getAvatarBase64())
                 .sendTime(OffsetDateTime.now().toString())
                 .build();
-
         messagingTemplate.convertAndSend("/subscribe/rooms/" + guest.getRoom().getId(), responseDto);
+        likeRepository.findAllByUserId(userId).forEach(Like::updateUserByQuit);
+        guestRepository.delete(guest);
+        userRepository.delete(user);
     }
 
     public void endRoom(String sessionId, String roomId, String url) {
@@ -96,7 +102,9 @@ public class RoomService {
         messagingTemplate.convertAndSend("/subscribe/rooms/" + roomId, responseDto);
     }
     @Transactional
-    public UUIDDto createRoom(RoomDto roomDto) {
+    public UUIDDto createRoom(Long userId, RoomDto roomDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
         String generatedUrl = generateRandomString(12);
 
         Room room = Room.builder()
@@ -105,6 +113,7 @@ public class RoomService {
                 .location(roomDto.getLocation())
                 .likeThreshold(roomDto.getLikeThreshold())
                 .url(generatedUrl)
+                .user(user)
                 .build();
 
         Room savedRoom = roomRepository.save(room);
