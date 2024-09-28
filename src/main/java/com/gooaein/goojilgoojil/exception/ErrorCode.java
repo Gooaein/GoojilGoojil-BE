@@ -32,6 +32,7 @@ public enum ErrorCode {
     ALREADY_LIKED_QUESTION(40008, HttpStatus.BAD_REQUEST, "이미 좋아요를 누르셨습니다."),
     CANNOT_END_ROOM(40009, HttpStatus.BAD_REQUEST, "방 종료는 강연자만 가능합니다."),
     CANNOT_CHECK_QUESTION(40010, HttpStatus.BAD_REQUEST, "질문 답변은 강연자만 가능합니다."),
+    CANNOT_CREATE_ROOM(40011, HttpStatus.BAD_REQUEST, "방 생성은 강연자만 가능합니다."),
 
 
     // Access Denied Error

@@ -1,12 +1,8 @@
 package com.gooaein.goojilgoojil.service;
 
-import com.gooaein.goojilgoojil.annotation.UserId;
 import com.gooaein.goojilgoojil.domain.User;
-import com.gooaein.goojilgoojil.dto.global.ResponseDto;
 import com.gooaein.goojilgoojil.dto.request.AuthSignUpDto;
-import com.gooaein.goojilgoojil.dto.request.OauthLoginDto;
 import com.gooaein.goojilgoojil.dto.response.JwtTokenDto;
-import com.gooaein.goojilgoojil.dto.type.ERole;
 import com.gooaein.goojilgoojil.exception.CommonException;
 import com.gooaein.goojilgoojil.exception.ErrorCode;
 import com.gooaein.goojilgoojil.repository.UserRepository;
@@ -15,11 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

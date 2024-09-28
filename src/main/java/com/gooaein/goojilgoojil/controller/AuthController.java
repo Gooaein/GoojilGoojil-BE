@@ -26,6 +26,7 @@ import java.io.IOException;
 public class AuthController {
     private final AuthService authService;
 
+    /* 미사용. 확장성을 위해 남겨놓음 */
     @GetMapping("/auth/id-duplicate")
     @Operation(summary = "아이디 중복 확인", description = "아이디 중복을 확인합니다.")
     public ResponseDto<?> checkDuplicate(
@@ -34,6 +35,7 @@ public class AuthController {
         return ResponseDto.ok(authService.checkDuplicate(serialId));
     }
 
+    /* 미사용. 확장성을 위해 남겨놓음 */
     @PostMapping("/auth/sign-up")
     @Operation(summary = "Default 회원가입", description = "Default 회원가입을 진행합니다.")
     public void signUp(
@@ -42,6 +44,7 @@ public class AuthController {
         authService.signUp(authSignUpDto);
     }
 
+    /* 리프레시토큰을 이용한 엑세스토큰 재발급. */
     @PostMapping("/users/auth/reissue")
     @Operation(summary = "Access 토큰 재발급", description = "Access 토큰을 재발급합니다.")
     public ResponseDto<?> reissue(

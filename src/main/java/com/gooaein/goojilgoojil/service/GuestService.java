@@ -1,14 +1,10 @@
 package com.gooaein.goojilgoojil.service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import com.gooaein.goojilgoojil.dto.global.ResponseDto;
 import com.gooaein.goojilgoojil.dto.response.RoomNumberDto;
 import com.gooaein.goojilgoojil.security.info.AuthenticationResponse;
-import com.gooaein.goojilgoojil.utility.CookieUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
