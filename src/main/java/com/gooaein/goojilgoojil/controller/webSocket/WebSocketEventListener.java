@@ -43,7 +43,6 @@ public class WebSocketEventListener {
         // WebSocket 세션 ID 가져오기
         String sessionId = headerAccessor.getSessionId();
 
-        // SecurityContext에서 JwtUserInfo 가져오기
         Long userId = (Long) headerAccessor.getSessionAttributes().get("userId");
         try {
             if (userId != null) {
