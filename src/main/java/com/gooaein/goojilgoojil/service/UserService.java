@@ -33,4 +33,9 @@ public class UserService {
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
         user.updateSessionId(sessionId);
     }
+    public UserDetailDto readUserBySessionId(String sessionId) {
+        User user = userRepository.findBySessionId(sessionId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+        return UserDetailDto.fromEntity(user);
+    }
 }

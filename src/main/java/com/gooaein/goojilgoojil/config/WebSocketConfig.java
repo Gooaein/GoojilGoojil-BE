@@ -1,7 +1,5 @@
 package com.gooaein.goojilgoojil.config;
 
-import com.gooaein.goojilgoojil.intercepter.pre.CustomHandshakeInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -11,12 +9,10 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-    @Autowired
-    private CustomHandshakeInterceptor customHandshakeInterceptor;
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint(("/ws-connection")).setAllowedOriginPatterns("*").addInterceptors(customHandshakeInterceptor); //처음 핸드쉐이킹
-        registry.addEndpoint("/ws-connection").setAllowedOrigins("*").addInterceptors(customHandshakeInterceptor).withSockJS();
+        registry.addEndpoint(("/ws-connection")).setAllowedOriginPatterns("*"); //처음 핸드쉐이킹
+        registry.addEndpoint("/ws-connection").setAllowedOrigins("*").withSockJS();
     }
 
     @Override
