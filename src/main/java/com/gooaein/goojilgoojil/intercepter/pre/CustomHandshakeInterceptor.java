@@ -55,29 +55,33 @@ public class CustomHandshakeInterceptor implements HandshakeInterceptor {
             log.error("Token is invalid.");
             return false;
         }
+        try {
+            // 인증 정보 생성 및 설정
+            JwtUserInfo jwtUserInfo = new JwtUserInfo(
+                    claims.get(Constants.CLAIM_USER_ID, Long.class),
+                    ERole.valueOf(claims.get(Constants.CLAIM_USER_ROLE, String.class))
+            );
 
-        // 인증 정보 생성 및 설정
-        JwtUserInfo jwtUserInfo = new JwtUserInfo(
-                claims.get(Constants.CLAIM_USER_ID, Long.class),
-                ERole.valueOf(claims.get(Constants.CLAIM_USER_ROLE, String.class))
-        );
+            // 인증 받지 않은 토큰을 생성
+            UsernamePasswordAuthenticationToken unAuthenticatedToken = new UsernamePasswordAuthenticationToken(
+                    jwtUserInfo, null, null
+            );
 
-        // 인증 받지 않은 토큰을 생성
-        UsernamePasswordAuthenticationToken unAuthenticatedToken = new UsernamePasswordAuthenticationToken(
-                jwtUserInfo, null, null
-        );
+            // 인증 받은 토큰
+            UsernamePasswordAuthenticationToken authenticatedToken = (UsernamePasswordAuthenticationToken)
+                    jwtAuthenticationManager.authenticate(unAuthenticatedToken);
 
-        // 인증 받은 토큰
-        UsernamePasswordAuthenticationToken authenticatedToken = (UsernamePasswordAuthenticationToken)
-                jwtAuthenticationManager.authenticate(unAuthenticatedToken);
+            // 인증 정보 설정
+            SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+            securityContext.setAuthentication(authenticatedToken);
+            SecurityContextHolder.setContext(securityContext);
 
-        // 인증 정보 설정
-        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-        securityContext.setAuthentication(authenticatedToken);
-        SecurityContextHolder.setContext(securityContext);
-
-        attributes.put("userId", jwtUserInfo.userId());
-        return true;
+            attributes.put("userId", jwtUserInfo.userId());
+            return true;
+        } catch (Exception e) {
+            log.error("Failed to authenticate the token.");
+            return false;
+        }
     }
 
 
