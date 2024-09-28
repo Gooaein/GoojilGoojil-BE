@@ -2,6 +2,7 @@
 GoojilGoojil-BE 리포지토리입니다.
 ![Frame](https://github.com/user-attachments/assets/7732d684-d732-4e9f-bb8e-080367b3ba40)
 
+Goojilgoojil-FE -> https://github.com/Gooaein/GoojilGoojil-FE
 
 # Commit Convention
 | Type | 설명 | 예시 |
