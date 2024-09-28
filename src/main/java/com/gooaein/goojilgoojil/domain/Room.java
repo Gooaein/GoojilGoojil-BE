@@ -21,9 +21,6 @@ public class Room {
     @Column(name = "room_name", nullable = false)
     private String name;
 
-    @Column(name = "sub_name", nullable = false)
-    private String subName;
-
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
@@ -33,12 +30,15 @@ public class Room {
     @Column(name = "url", nullable = false)
     private String url;
 
+    @Column(name = "like_threshold", nullable = false)
+    private Integer likeThreshold;
+
     @Builder
-    public Room(String name, String subName, LocalDateTime date, String location, String url) {
+    public Room(String name, LocalDateTime date, String location, String url, Integer likeThreshold) {
         this.name = name;
-        this.subName = subName;
         this.date = date;
         this.location = location;
+        this.likeThreshold = likeThreshold;
         this.url = url;
     }
 }
