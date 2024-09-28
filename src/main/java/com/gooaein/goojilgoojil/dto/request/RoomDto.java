@@ -14,7 +14,7 @@ public class RoomDto {
     private Long id;
     private String name;
     private LocalDateTime date;
-    private String location;  // location 필드 추가
+    private String location;
     @JsonProperty("like_threshold")
     private Integer likeThreshold;
     private String url;

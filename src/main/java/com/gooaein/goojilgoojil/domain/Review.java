@@ -1,6 +1,5 @@
 package com.gooaein.goojilgoojil.domain;
 
-import com.gooaein.goojilgoojil.dto.response.ReviewDto;
 import jakarta.persistence.*;
 import lombok.*;
 

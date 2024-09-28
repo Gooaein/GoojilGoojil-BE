@@ -1,7 +1,6 @@
 package com.gooaein.goojilgoojil.dto.response;
 
 import com.gooaein.goojilgoojil.domain.Review;
-import com.gooaein.goojilgoojil.domain.Room;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

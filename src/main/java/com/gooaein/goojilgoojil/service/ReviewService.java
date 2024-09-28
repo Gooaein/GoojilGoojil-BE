@@ -2,7 +2,6 @@ package com.gooaein.goojilgoojil.service;
 
 import com.gooaein.goojilgoojil.domain.Review;
 import com.gooaein.goojilgoojil.domain.Room;
-import com.gooaein.goojilgoojil.domain.nosql.Question;
 import com.gooaein.goojilgoojil.dto.response.ReviewCreateDto;
 import com.gooaein.goojilgoojil.dto.response.ReviewDto;
 import com.gooaein.goojilgoojil.dto.response.ReviewQuestionsDto;

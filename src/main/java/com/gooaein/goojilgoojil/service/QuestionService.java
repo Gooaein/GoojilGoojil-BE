@@ -1,8 +1,6 @@
 package com.gooaein.goojilgoojil.service;
 
 import com.gooaein.goojilgoojil.domain.Guest;
-import com.gooaein.goojilgoojil.domain.Like;
-import com.gooaein.goojilgoojil.domain.Room;
 import com.gooaein.goojilgoojil.domain.User;
 import com.gooaein.goojilgoojil.domain.nosql.Question;
 import com.gooaein.goojilgoojil.dto.request.LikeRequestDto;
@@ -20,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
