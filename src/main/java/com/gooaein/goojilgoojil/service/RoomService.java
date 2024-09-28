@@ -105,6 +105,8 @@ public class RoomService {
     public UUIDDto createRoom(Long userId, RoomDto roomDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+        if (guestRepository.findById(userId).isPresent())
+            throw new CommonException(ErrorCode.CANNOT_CREATE_ROOM);
         String generatedUrl = generateRandomString(12);
 
         Room room = Room.builder()
