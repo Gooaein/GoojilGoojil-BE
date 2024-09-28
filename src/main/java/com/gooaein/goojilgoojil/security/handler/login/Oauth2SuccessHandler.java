@@ -30,6 +30,6 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
 
         AuthenticationResponse.makeLoginSuccessResponse(response, jwtTokenDto, jwtUtil.getRefreshExpiration());
 
-        response.sendRedirect("https://goojilgoojil.com/");
+        response.sendRedirect("https://goojilgoojil.com/createRoom");
     }
 }
