@@ -59,8 +59,7 @@ public class RoomController {
 
     @PostMapping("/api/v1/rooms")
     public ResponseDto<?> createRoom(@RequestBody RoomDto roomDto) {
-        RoomDto createdRoom = roomService.createRoom(roomDto);  // 제대로 매핑되었는지 확인
-        return ResponseDto.created(createdRoom.getUrl());
+        return ResponseDto.created(roomService.createRoom(roomDto));
     }
 
     @GetMapping("/api/v1/rooms/{room_id}/reviews")
