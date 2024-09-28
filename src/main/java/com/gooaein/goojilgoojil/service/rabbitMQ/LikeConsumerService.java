@@ -27,6 +27,9 @@ public class LikeConsumerService {
     private final GuestRepository guestRepository;
     private final SimpMessagingTemplate messagingTemplate;
 
+    /* 질문 공감에 대한 처리 로직.
+    *  Queue에서 consume하여, 특정 질문에 대한 공감(like)를 생성하고 저장한다.
+    *  또한, 웹소켓에 해당 질문이 공감되었다는 메세지를 전송함으로써, 모든 사용자들이 실시간으로 그 사실을 알게 한다. */
     @RabbitListener(queues = "likeQueue")
     @Transactional
     public void consumeLike(LikeRequestDto likeRequestDto) {

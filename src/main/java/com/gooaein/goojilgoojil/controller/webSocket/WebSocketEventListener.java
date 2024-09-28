@@ -24,6 +24,11 @@ public class WebSocketEventListener {
     private final RoomService roomService;
     private final JwtUtil jwtUtil;
 
+    /* 웹소켓이 연결되고 나서 발생하는 이벤트.
+    *  웹소켓 연결 직후, native header로부터 Authorization의 값인 access_token을 추출한다.
+    *  만약 토큰이 비어있거나, 잘못된 토큰이 주어지면 에러 로그를 출력하고 소켓 연결이 끊긴다.
+    *  추출한 토큰으로부터 유저 정보인 userId를 가져와, 해당 유저 엔티티의 세션아이디를 웹소켓의 세션아이디로 업데이트한다.
+    *  추후 이 세션아이디는, 웹소켓 관련 요청 시 유저와의 맵핑을 위해 사용된다. */
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
@@ -66,6 +71,10 @@ public class WebSocketEventListener {
 
     }
 
+    /* 웹소켓 연결이 끊기고 나서 발생하는 이벤트
+    *  웹소켓 연결이 끝나고 나면, 연결이 종료된 User를 웹소켓 세션 아이디를 통해 맵핑하여 찾는다.
+    *  찾은 User가 Guest(수강자)인지 아닌지(강연자) 구분하고, 수강자라면 Guest와 User를 삭제한다. (임시 유저는 더미로 안남김)
+    *  강연자라면, 해당 엔티티의 sessionId만 null로 업데이트한다. (강연자는 소켓이 끊겼다고 삭제되면 안됨) */
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());

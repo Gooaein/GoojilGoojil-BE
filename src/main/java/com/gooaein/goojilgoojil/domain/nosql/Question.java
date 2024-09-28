@@ -18,7 +18,7 @@ public class Question {
     private final byte[] avatarBase64; // 질문자 아바타
     private Integer likeCount; // 좋아요 수
     private String sendTime; // 질문 보낸 시간
-    private String status;
+    private String status; // 질문 답변 여부
 
     @Builder
     public Question(String roomId, String title, String content, byte[] avatarBase64, Integer likeCount, String status) {
